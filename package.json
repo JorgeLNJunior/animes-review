@@ -7,7 +7,8 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "vue": "^3.0.5"
+    "vue": "^3.0.5",
+    "vue-router": "^4.0.10"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
@@ -30,6 +31,6 @@
     "vue-tsc": "^0.0.24"
   },
   "lint-staged": {
-    "*.(js,ts,vue)": "eslint --fix"
+    "*.{js,ts,vue}": "eslint --fix"
   }
 }

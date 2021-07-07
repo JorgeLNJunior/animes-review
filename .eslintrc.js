@@ -1,21 +1,16 @@
-import { resolve } from 'path'
-
 module.exports = {
   env: {
     browser: true,
     es2021: true
   },
   extends: [
-    'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:vue/vue3-recommended',
     'standard'
   ],
   parserOptions: {
-    extraFileExtensions: ['.vue'],
+    ecmaVersion: 12,
     parser: '@typescript-eslint/parser',
-    project: resolve(__dirname, './tsconfig.json'),
-    tsconfigRootDir: __dirname,
-    ecmaVersion: 2018,
     sourceType: 'module'
   },
   plugins: [
@@ -25,6 +20,12 @@ module.exports = {
   ],
   rules: {
     'simple-import-sort/imports': 'warn',
-    'simple-import-sort/exports': 'warn'
+    'simple-import-sort/exports': 'warn',
+
+    // TypeScript
+    quotes: ['warn', 'single', { avoidEscape: true }],
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-unsafe-member-access': 'off'
   }
 }

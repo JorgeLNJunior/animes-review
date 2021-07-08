@@ -33,16 +33,11 @@ export default defineComponent({
   components: { LoginForm }
 })
 </script>
-<style module>
+
+<style>
 body {
   background-image: url('@assets/login-bg.jpg');
   background-attachment: fixed;
   background-size: cover;
-}
-.notification {
-  max-height: 10px;
-}
-footer{
-    padding: 3px !important;
 }
 </style>

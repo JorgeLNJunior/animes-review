@@ -9,7 +9,11 @@ export default defineConfig({
     alias: {
       '@components': resolve(__dirname, '/src/components'),
       '@pages': resolve(__dirname, '/src/pages'),
-      '@assets': resolve(__dirname, '/src/assets')
+      '@assets': resolve(__dirname, '/src/assets'),
+      '@api': resolve(__dirname, '/src/api')
     }
+  },
+  server: {
+    port: 5000
   }
 })

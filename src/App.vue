@@ -1,5 +1,12 @@
 <template>
-  <router-view />
+  <router-view v-slot="{ Component }">
+    <transition
+      mode="out-in"
+      enter-active-class="animate__animated animate__slideInLeft animate__faster"
+    >
+      <component :is="Component" />
+    </transition>
+  </router-view>
 </template>
 
 <script lang="ts">

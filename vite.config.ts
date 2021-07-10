@@ -10,7 +10,8 @@ export default defineConfig({
       '@components': resolve(__dirname, '/src/components'),
       '@pages': resolve(__dirname, '/src/pages'),
       '@assets': resolve(__dirname, '/src/assets'),
-      '@api': resolve(__dirname, '/src/api')
+      '@api': resolve(__dirname, '/src/api'),
+      '@store': resolve(__dirname, '/src/store')
     }
   },
   server: {

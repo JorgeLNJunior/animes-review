@@ -1,6 +1,7 @@
 import 'bulma'
 import 'vue-toastification/dist/index.css'
 
+import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import Toast, { PluginOptions } from 'vue-toastification'
 
@@ -11,4 +12,4 @@ const toastOptions: PluginOptions = {
   maxToasts: 3
 }
 
-createApp(App).use(router).use(Toast, toastOptions).mount('#app')
+createApp(App).use(router).use(Toast, toastOptions).use(createPinia()).mount('#app')

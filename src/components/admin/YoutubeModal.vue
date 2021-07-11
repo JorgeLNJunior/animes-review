@@ -1,7 +1,7 @@
 <template>
   <div
     class="modal is-full"
-    :class="{ 'is-active': ui.isYoutubeModalOpen }"
+    :class="{ 'is-active': store.isYoutubeModalOpen }"
   >
     <div class="modal-background" />
     <div class="modal-card">
@@ -9,7 +9,7 @@
         <div class="columns is-centered">
           <div class="column has-text-centered">
             <iframe
-              :src="`https://youtube.com/embed/${ui.youtubeVideoId}?controls=0&autoplay=1`"
+              :src="`https://youtube.com/embed/${store.youtubeVideoId}?controls=0&autoplay=1`"
               width="480"
               height="360"
             />
@@ -20,21 +20,21 @@
     <button
       class="modal-close is-large"
       aria-label="close"
-      @click="ui.closeYoutubeModal()"
+      @click="store.closeYoutubeModal()"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { useUiStore } from '@store/ui.store'
+import { useMainStore } from '@store/main.store'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'YoutubeModal',
   setup () {
-    const ui = useUiStore()
+    const store = useMainStore()
 
-    return { ui }
+    return { store }
   }
 })
 </script>

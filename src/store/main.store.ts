@@ -1,10 +1,12 @@
+import { AnimeQuery } from '@api/Anime'
 import { defineStore } from 'pinia'
 
-export const useUiStore = defineStore({
-  id: 'ui',
+export const useMainStore = defineStore({
+  id: 'main',
   state: () => ({
     isYoutubeModalOpen: false,
-    youtubeVideoId: ''
+    youtubeVideoId: '',
+    animeQuery: {} as AnimeQuery
   }),
   actions: {
     openYoutubeModal (videoId: string) {

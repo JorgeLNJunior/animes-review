@@ -5,7 +5,7 @@
     <td>
       <button
         class="button is-info is-outlined"
-        @click="ui.openYoutubeModal(String(anime.trailer.split('v=').pop()))"
+        @click="store.openYoutubeModal(String(anime.trailer.split('v=').pop()))"
       >
         Ver
       </button>
@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import { Anime } from '@api/Anime'
-import { useUiStore } from '@store/ui.store'
+import { useMainStore } from '@store/main.store'
 import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
@@ -38,9 +38,9 @@ export default defineComponent({
     }
   },
   setup () {
-    const ui = useUiStore()
+    const store = useMainStore()
 
-    return { ui }
+    return { store }
   }
 })
 </script>

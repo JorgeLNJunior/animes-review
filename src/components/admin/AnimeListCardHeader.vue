@@ -15,6 +15,8 @@
         <div class="field">
           <p class="control has-icons-left">
             <input
+              v-model="state.title"
+              v-debounce:800ms="updateStore"
               placeholder="Procurar"
               type="text"
               class="input"
@@ -29,6 +31,8 @@
         <div class="field">
           <p class="control has-icons-left">
             <input
+              v-model.number="state.take"
+              v-debounce:800ms="updateStore"
               placeholder="Max"
               type="number"
               min="1"
@@ -44,6 +48,8 @@
         <div class="field">
           <p class="control has-icons-left">
             <input
+              v-model.number="state.skip"
+              v-debounce:800ms="updateStore"
               placeholder="Skip"
               type="number"
               min="0"
@@ -60,9 +66,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { useMainStore } from '@store/main.store'
+import { defineComponent, reactive } from 'vue'
 
 export default defineComponent({
-  name: 'AdminAnimeListCardHeader'
+  name: 'AdminAnimeListCardHeader',
+  setup () {
+    const store = useMainStore()
+    const state = reactive({
+      title: '',
+      take: undefined,
+      skip: undefined
+    })
+
+    function updateStore () {
+      store.animeQuery.title = state.title
+      store.animeQuery.take = state.take
+      store.animeQuery.skip = state.skip
+    }
+
+    return { state, updateStore }
+  }
 })
 </script>

@@ -12,6 +12,6 @@ import { router } from './routes'
 createApp(App)
   .use(router)
   .use(createPinia())
-  .use(Toast, { maxToasts: 3 } as PluginOptions)
+  .use(Toast, { maxToasts: 3, timeout: 3000 } as PluginOptions)
   .use(vueDebounce, { listenTo: 'input' } as PluginConfig)
   .mount('#app')

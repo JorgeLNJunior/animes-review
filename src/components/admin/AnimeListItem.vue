@@ -17,7 +17,11 @@
       </button>
     </td>
     <td>
-      <button class="button is-danger">
+      <button
+        class="button is-danger"
+        :class="{ 'is-loading': state.isDeleteBtnLoading }"
+        @click="deleteAnime()"
+      >
         Excluir
       </button>
     </td>
@@ -25,9 +29,10 @@
 </template>
 
 <script lang="ts">
-import { Anime } from '@api/Anime'
+import { Anime, AnimeApi } from '@api/Anime'
 import { useMainStore } from '@store/main.store'
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'AnimeListItem',
@@ -37,10 +42,32 @@ export default defineComponent({
       required: true
     }
   },
-  setup () {
+  setup (props) {
+    const animeApi = new AnimeApi()
     const store = useMainStore()
+    const router = useRouter()
+    const state = reactive({
+      isDeleteBtnLoading: false
+    })
 
-    return { store }
+    async function deleteAnime () {
+      try {
+        state.isDeleteBtnLoading = true
+        await animeApi.delete(props.anime.uuid)
+        await router.push({ path: '/admin', query: { status: 'success', message: 'Anime excluído com sucesso' } })
+        router.go(0)
+      } catch (error) {
+        if (error.response) {
+          await router.push({ path: '/admin', query: { status: 'error', message: 'Falha ao excluir anime' } })
+          router.go(0)
+        }
+        console.log(error)
+      } finally {
+        state.isDeleteBtnLoading = false
+      }
+    }
+
+    return { store, deleteAnime, state }
   }
 })
 </script>

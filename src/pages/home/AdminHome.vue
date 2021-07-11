@@ -50,7 +50,8 @@ import AnimeListItem from '@components/admin/AnimeListItem.vue'
 import YoutubeModal from '@components/admin/YoutubeModal.vue'
 import AdminNavBar from '@components/bar/AdminNavBar.vue'
 import { useMainStore } from '@store/main.store'
-import { defineComponent, onBeforeMount, reactive, watch } from 'vue'
+import { defineComponent, onBeforeMount, onMounted, reactive, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
 export default defineComponent({
@@ -65,11 +66,13 @@ export default defineComponent({
   setup () {
     const animeApi = new AnimeApi()
     const toast = useToast()
+    const store = useMainStore()
+    const route = useRoute()
+    const router = useRouter()
     const state = reactive({
       animes: [] as Anime[],
       isLoading: false
     })
-    const store = useMainStore()
 
     async function findAnimes () {
       try {
@@ -87,6 +90,16 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await findAnimes()
+    })
+    onMounted(() => {
+      if (route.query.status === 'error') {
+        toast.error(String(route.query.message))
+        router.replace({ query: { message: null, status: null } })
+      }
+      if (route.query.status === 'success') {
+        toast.success(String(route.query.message))
+        router.replace({ query: { message: null, status: null } })
+      }
     })
     watch(() => store.$state.animeQuery, async () => { await findAnimes() },
       { deep: true }

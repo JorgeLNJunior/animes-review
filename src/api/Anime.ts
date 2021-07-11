@@ -37,4 +37,11 @@ export class AnimeApi {
     })
     return response.data.animes as Anime[]
   }
+
+  async delete (uuid: string) {
+    const token = localStorage.getItem('token')
+    await this.axios.delete(`/animes/${uuid}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+  }
 }

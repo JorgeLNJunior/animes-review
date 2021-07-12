@@ -11,6 +11,13 @@ export interface Anime {
   episodes: number
 }
 
+export interface UpdateAnime {
+  title?: string
+  synopsis?: string
+  trailer?: string
+  episodes?: number
+}
+
 export interface AnimeQuery {
   uuid?: string;
   title?: string;
@@ -27,6 +34,7 @@ export class AnimeApi {
 
   async find (query?: AnimeQuery): Promise<Anime[]> {
     let q = ''
+    if (query?.uuid) q = q + `uuid=${query?.uuid}&`
     if (query?.title) q = q + `title=${query?.title}&`
     if (query?.take) q = q + `take=${query?.take}&`
     if (query?.skip) q = q + `skip=${query?.skip}&`
@@ -36,6 +44,13 @@ export class AnimeApi {
       headers: { Authorization: `Bearer ${token}` }
     })
     return response.data.animes as Anime[]
+  }
+
+  async update (uuid: string, anime: UpdateAnime) {
+    const token = localStorage.getItem('token')
+    await this.axios.patch(`/animes/${uuid}`, anime, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
   }
 
   async delete (uuid: string) {

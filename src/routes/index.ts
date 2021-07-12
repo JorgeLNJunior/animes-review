@@ -11,7 +11,11 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/admin',
-    component: () => import('@pages/home/AdminHome.vue')
+    component: () => import('@pages/admin/AdminHome.vue')
+  },
+  {
+    path: '/admin/animes/update/:uuid',
+    component: () => import('@pages/admin/animes/UpdateAnime.vue')
   }
 ]
 

@@ -12,9 +12,11 @@
     </td>
     <td>{{ anime.episodes }}</td>
     <td>
-      <button class="button is-info">
-        Editar
-      </button>
+      <router-link :to="`/admin/animes/update/${anime.uuid}`">
+        <button class="button is-info">
+          Editar
+        </button>
+      </router-link>
     </td>
     <td>
       <button

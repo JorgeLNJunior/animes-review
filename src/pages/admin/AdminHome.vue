@@ -50,7 +50,13 @@ import AnimeListItem from '@components/admin/AnimeListItem.vue'
 import YoutubeModal from '@components/admin/YoutubeModal.vue'
 import AdminNavBar from '@components/bar/AdminNavBar.vue'
 import { useMainStore } from '@store/main.store'
-import { defineComponent, onBeforeMount, onMounted, reactive, watch } from 'vue'
+import {
+  defineComponent,
+  onBeforeMount,
+  onMounted,
+  reactive,
+  watch
+} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
@@ -101,7 +107,11 @@ export default defineComponent({
         router.replace({ query: { message: null, status: null } })
       }
     })
-    watch(() => store.$state.animeQuery, async () => { await findAnimes() },
+    watch(
+      () => store.$state.animeQuery,
+      async () => {
+        await findAnimes()
+      },
       { deep: true }
     )
 

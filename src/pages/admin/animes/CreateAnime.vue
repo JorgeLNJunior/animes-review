@@ -83,8 +83,11 @@
                     class="file-label"
                   >
                     <input
+                      ref="file"
                       type="file"
                       class="file-input"
+                      accept="image/png, image/jpeg, image/jpeg"
+                      @change="fileSelected()"
                     >
                     <span class="file-cta">
                       <span class="file-icon">
@@ -94,14 +97,19 @@
                         Selecione a capa…
                       </span>
                     </span>
+                    <span
+                      v-if="uiState.fileName"
+                      class="file-name"
+                    >
+                      {{ uiState.fileName }}
+                    </span>
+                    <p
+                      v-if="uiState.isFileError"
+                      class="help is-danger"
+                    >
+                      {{ uiState.fileErrorMsg }}
+                    </p>
                   </label>
-                  <!-- <p
-                    v-for="error of v$.trailer.$errors"
-                    :key="error.$uid"
-                    class="help is-danger"
-                  >
-                    {{ error.$message }}
-                  </p> -->
                 </div>
               </div>
             </div>
@@ -127,7 +135,7 @@
               <button
                 class="button is-primary "
                 :class="{ 'is-loading': uiState.isLoading }"
-                :disabled="uiState.isDisabled || v$.$errors.length"
+                :disabled="uiState.isDisabled || v$.$errors.length || uiState.isFileError"
               >
                 Criar
               </button>
@@ -144,7 +152,7 @@ import { AnimeApi, UpdateAnime } from '@api/Anime'
 import AdminNavBar from '@components/bar/AdminNavBar.vue'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers, integer, maxLength, minValue, required } from '@vuelidate/validators'
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
@@ -157,9 +165,13 @@ export default defineComponent({
     const animeApi = new AnimeApi()
     const uiState = reactive({
       isLoading: false,
-      isDisabled: false
+      isDisabled: false,
+      isFileError: false,
+      fileErrorMsg: '',
+      fileName: undefined
     })
     const formState = reactive<UpdateAnime>({})
+    const file = ref()
 
     const rules = {
       title: {
@@ -186,9 +198,16 @@ export default defineComponent({
         v$.value.$touch()
         if (v$.value.$error) return
 
+        if (!file.value.files[0]) {
+          uiState.isFileError = true
+          uiState.fileErrorMsg = 'Campo obrigatório'
+          return
+        }
+
         uiState.isLoading = true
         uiState.isDisabled = true
-        await animeApi.create(formState)
+        const { uuid } = await animeApi.create(formState)
+        await animeApi.upload(uuid, file.value.files[0])
         await router.push({ path: '/admin', query: { status: 'success', message: 'Anime criado com sucesso' } })
       } catch (error) {
         if (error.response.data.message) {
@@ -201,7 +220,13 @@ export default defineComponent({
       }
     }
 
-    return { uiState, formState, submit, v$ }
+    function fileSelected () {
+      uiState.isFileError = false
+      uiState.fileErrorMsg = ''
+      uiState.fileName = file.value.files[0].name
+    }
+
+    return { uiState, formState, submit, v$, file, fileSelected }
   }
 })
 </script>

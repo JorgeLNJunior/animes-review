@@ -48,15 +48,31 @@ export class AnimeApi {
 
   async create (anime: UpdateAnime) {
     const token = localStorage.getItem('token')
-    await this.axios.post('/animes', anime, {
+    const response = await this.axios.post('/animes', anime, {
       headers: { Authorization: `Bearer ${token}` }
     })
+
+    return response.data.anime as Anime
   }
 
   async update (uuid: string, anime: UpdateAnime) {
     const token = localStorage.getItem('token')
     await this.axios.patch(`/animes/${uuid}`, anime, {
       headers: { Authorization: `Bearer ${token}` }
+    })
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async upload (uuid: string, file: File) {
+    const form = new FormData()
+    form.append('cover', file)
+
+    const token = localStorage.getItem('token')
+    await this.axios.post(`/animes/${uuid}/upload`, form, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'content-type': 'multipart/form-data'
+      }
     })
   }
 

@@ -46,6 +46,13 @@ export class AnimeApi {
     return response.data.animes as Anime[]
   }
 
+  async create (anime: UpdateAnime) {
+    const token = localStorage.getItem('token')
+    await this.axios.post('/animes', anime, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+  }
+
   async update (uuid: string, anime: UpdateAnime) {
     const token = localStorage.getItem('token')
     await this.axios.patch(`/animes/${uuid}`, anime, {

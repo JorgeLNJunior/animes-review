@@ -16,6 +16,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/admin/animes/update/:uuid',
     component: () => import('@pages/admin/animes/UpdateAnime.vue')
+  },
+  {
+    path: '/admin/animes/new',
+    component: () => import('@pages/admin/animes/CreateAnime.vue')
   }
 ]
 

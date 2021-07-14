@@ -2,7 +2,7 @@
   <div class="card-header">
     <div class="columns is-centered my-3">
       <div class="column is-one-fifth has-text-centered">
-        <router-link to="#">
+        <router-link to="/admin/animes/new">
           <button class="button is-primary">
             <span class="icon is-small">
               <i class="fas fa-plus-circle" />

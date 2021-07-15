@@ -11,15 +11,21 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/admin',
-    component: () => import('@pages/admin/AdminHome.vue')
-  },
-  {
-    path: '/admin/animes/update/:uuid',
-    component: () => import('@pages/admin/animes/UpdateAnime.vue')
-  },
-  {
-    path: '/admin/animes/new',
-    component: () => import('@pages/admin/animes/CreateAnime.vue')
+    component: () => import('@pages/admin/AdminHome.vue'),
+    children: [
+      {
+        path: 'animes/',
+        component: () => import('@pages/admin/animes/ListAnime.vue')
+      },
+      {
+        path: 'animes/update/:uuid',
+        component: () => import('@pages/admin/animes/UpdateAnime.vue')
+      },
+      {
+        path: 'animes/new',
+        component: () => import('@pages/admin/animes/CreateAnime.vue')
+      }
+    ]
   }
 ]
 

@@ -1,147 +1,144 @@
 <template>
-  <div>
-    <AdminNavBar />
-    <div class="columns is-centered">
-      <div class="column is-four-fifths">
-        <div class="has-text-centered my-3">
-          <span class="is-size-3 has-text-weight-medium">Novo</span>
-        </div>
-        <div class="box">
-          <form
-            class="form"
-            @submit.prevent="submit()"
-          >
-            <div class="columns is-centered">
-              <div class="column is-three-quarters">
-                <div class="field">
-                  <label class="label">Título</label>
-                  <div class="control">
-                    <input
-                      v-model="formState.title"
-                      type="text"
-                      class="input"
-                      :class="{ 'is-danger': v$.title.$errors.length }"
-                    >
-                    <p
-                      v-for="error of v$.title.$errors"
-                      :key="error.$uid"
-                      class="help is-danger"
-                    >
-                      {{ error.$message }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="column">
-                <div class="field">
-                  <label class="label">Epiódios</label>
-                  <div class="control">
-                    <input
-                      v-model.number="formState.episodes"
-                      type="text"
-                      class="input"
-                      :class="{ 'is-danger': v$.episodes.$errors.length }"
-                    >
-                    <p
-                      v-for="error of v$.episodes.$errors"
-                      :key="error.$uid"
-                      class="help is-danger"
-                    >
-                      {{ error.$message }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="columns is-centered">
-              <div class="column is-three-quarters">
-                <div class="field">
-                  <label class="label">Trailer</label>
-                  <div class="control">
-                    <input
-                      v-model="formState.trailer"
-                      type="text"
-                      class="input"
-                      :class="{ 'is-danger': v$.trailer.$errors.length }"
-                    >
-                    <p
-                      v-for="error of v$.trailer.$errors"
-                      :key="error.$uid"
-                      class="help is-danger"
-                    >
-                      {{ error.$message }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="column">
-                <div
-                  class="file is-boxed is-small is-centered mt-4"
-                  :class="{ 'is-danger': false}"
-                >
-                  <label
-                    class="file-label"
+  <div class="columns is-centered">
+    <div class="column is-four-fifths">
+      <div class="has-text-centered my-3">
+        <span class="is-size-3 has-text-weight-medium">Novo</span>
+      </div>
+      <div class="box">
+        <form
+          class="form"
+          @submit.prevent="submit()"
+        >
+          <div class="columns is-centered">
+            <div class="column is-three-quarters">
+              <div class="field">
+                <label class="label">Título</label>
+                <div class="control">
+                  <input
+                    v-model="formState.title"
+                    type="text"
+                    class="input"
+                    :class="{ 'is-danger': v$.title.$errors.length }"
                   >
-                    <input
-                      ref="file"
-                      type="file"
-                      class="file-input"
-                      accept="image/png, image/jpeg, image/jpeg"
-                      @change="fileSelected()"
-                    >
-                    <span class="file-cta">
-                      <span class="file-icon">
-                        <i class="fas fa-upload" />
-                      </span>
-                      <span class="file-label">
-                        Selecione a capa…
-                      </span>
-                    </span>
-                    <span
-                      v-if="uiState.fileName"
-                      class="file-name"
-                    >
-                      {{ uiState.fileName }}
-                    </span>
-                    <p
-                      v-if="uiState.isFileError"
-                      class="help is-danger"
-                    >
-                      {{ uiState.fileErrorMsg }}
-                    </p>
-                  </label>
+                  <p
+                    v-for="error of v$.title.$errors"
+                    :key="error.$uid"
+                    class="help is-danger"
+                  >
+                    {{ error.$message }}
+                  </p>
                 </div>
               </div>
             </div>
-            <div class="field">
-              <label class="label">Sinopse</label>
-              <div class="control">
-                <textarea
-                  v-model="formState.synopsis"
-                  type="text"
-                  class="textarea"
-                  :class="{ 'is-danger': v$.synopsis.$errors.length }"
-                />
-                <p
-                  v-for="error of v$.synopsis.$errors"
-                  :key="error.$uid"
-                  class="help is-danger"
-                >
-                  {{ error.$message }}
-                </p>
+            <div class="column">
+              <div class="field">
+                <label class="label">Epiódios</label>
+                <div class="control">
+                  <input
+                    v-model.number="formState.episodes"
+                    type="text"
+                    class="input"
+                    :class="{ 'is-danger': v$.episodes.$errors.length }"
+                  >
+                  <p
+                    v-for="error of v$.episodes.$errors"
+                    :key="error.$uid"
+                    class="help is-danger"
+                  >
+                    {{ error.$message }}
+                  </p>
+                </div>
               </div>
             </div>
-            <div class="has-text-centered">
-              <button
-                class="button is-primary "
-                :class="{ 'is-loading': uiState.isLoading }"
-                :disabled="uiState.isDisabled || v$.$errors.length || uiState.isFileError"
-              >
-                Criar
-              </button>
+          </div>
+          <div class="columns is-centered">
+            <div class="column is-three-quarters">
+              <div class="field">
+                <label class="label">Trailer</label>
+                <div class="control">
+                  <input
+                    v-model="formState.trailer"
+                    type="text"
+                    class="input"
+                    :class="{ 'is-danger': v$.trailer.$errors.length }"
+                  >
+                  <p
+                    v-for="error of v$.trailer.$errors"
+                    :key="error.$uid"
+                    class="help is-danger"
+                  >
+                    {{ error.$message }}
+                  </p>
+                </div>
+              </div>
             </div>
-          </form>
-        </div>
+            <div class="column">
+              <div
+                class="file is-boxed is-small is-centered mt-4"
+                :class="{ 'is-danger': false}"
+              >
+                <label
+                  class="file-label"
+                >
+                  <input
+                    ref="file"
+                    type="file"
+                    class="file-input"
+                    accept="image/png, image/jpeg, image/jpeg"
+                    @change="fileSelected()"
+                  >
+                  <span class="file-cta">
+                    <span class="file-icon">
+                      <i class="fas fa-upload" />
+                    </span>
+                    <span class="file-label">
+                      Selecione a capa…
+                    </span>
+                  </span>
+                  <span
+                    v-if="uiState.fileName"
+                    class="file-name"
+                  >
+                    {{ uiState.fileName }}
+                  </span>
+                  <p
+                    v-if="uiState.isFileError"
+                    class="help is-danger"
+                  >
+                    {{ uiState.fileErrorMsg }}
+                  </p>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Sinopse</label>
+            <div class="control">
+              <textarea
+                v-model="formState.synopsis"
+                type="text"
+                class="textarea"
+                :class="{ 'is-danger': v$.synopsis.$errors.length }"
+              />
+              <p
+                v-for="error of v$.synopsis.$errors"
+                :key="error.$uid"
+                class="help is-danger"
+              >
+                {{ error.$message }}
+              </p>
+            </div>
+          </div>
+          <div class="has-text-centered">
+            <button
+              class="button is-primary "
+              :class="{ 'is-loading': uiState.isLoading }"
+              :disabled="uiState.isDisabled || v$.$errors.length || uiState.isFileError"
+            >
+              Criar
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -149,7 +146,6 @@
 
 <script lang="ts">
 import { AnimeApi, UpdateAnime } from '@api/Anime'
-import AdminNavBar from '@components/bar/AdminNavBar.vue'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers, integer, maxLength, minValue, required } from '@vuelidate/validators'
 import { defineComponent, reactive, ref } from 'vue'
@@ -158,7 +154,6 @@ import { useToast } from 'vue-toastification'
 
 export default defineComponent({
   name: 'UpdateAnime',
-  components: { AdminNavBar },
   setup () {
     const router = useRouter()
     const toast = useToast()
@@ -208,7 +203,7 @@ export default defineComponent({
         uiState.isDisabled = true
         const { uuid } = await animeApi.create(formState)
         await animeApi.upload(uuid, file.value.files[0])
-        await router.push({ path: '/admin', query: { status: 'success', message: 'Anime criado com sucesso' } })
+        await router.push({ path: '/admin/animes', query: { status: 'success', message: 'Anime criado com sucesso' } })
       } catch (error) {
         if (error.response.data.message) {
           toast.error(error.response.data.message[0])

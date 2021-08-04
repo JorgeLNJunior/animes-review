@@ -8,7 +8,10 @@ export interface Anime {
   synopsis: string
   cover: string
   trailer: string
-  episodes: number
+  episodes: number,
+  rating: number,
+  reviews: number,
+  releaseDate: string
 }
 
 export interface UpdateAnime {
@@ -16,6 +19,7 @@ export interface UpdateAnime {
   synopsis?: string
   trailer?: string
   episodes?: number
+  releaseDate: string
 }
 
 export interface AnimeQuery {

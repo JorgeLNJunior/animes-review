@@ -26,6 +26,16 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@pages/admin/animes/CreateAnime.vue')
       }
     ]
+  },
+  {
+    path: '/animes',
+    component: () => import('@pages/anime/AnimeHome.vue'),
+    children: [
+      {
+        path: ':uuid',
+        component: () => import('@pages/anime/ShowAnime.vue')
+      }
+    ]
   }
 ]
 

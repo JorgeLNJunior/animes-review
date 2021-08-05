@@ -73,6 +73,7 @@
       </div>
     </div>
   </div>
+  <!-- TODO Listar os reviews do anime -->
 </template>
 
 <script lang="ts">
@@ -130,7 +131,20 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.cover {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 3%;
+  border-color: rgb(97, 97, 97);
+}
 .cover:hover {
   cursor: pointer;
+}
+
+iframe {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 2%;
+  border-color: rgb(97, 97, 97);
 }
 </style>

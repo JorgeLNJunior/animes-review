@@ -1,5 +1,5 @@
 <template>
-  <tr>
+  <tr @click="redirect()">
     <td>{{ anime.title }}</td>
     <td><abbr :title="anime.synopsis">{{ anime.synopsis.slice(0, 50) }}...</abbr></td>
     <td>
@@ -52,6 +52,10 @@ export default defineComponent({
       isDeleteBtnLoading: false
     })
 
+    async function redirect () {
+      await router.push({ path: `/animes/${props.anime.uuid}` })
+    }
+
     async function deleteAnime () {
       try {
         state.isDeleteBtnLoading = true
@@ -69,7 +73,7 @@ export default defineComponent({
       }
     }
 
-    return { store, deleteAnime, state }
+    return { store, state, deleteAnime, redirect }
   }
 })
 </script>

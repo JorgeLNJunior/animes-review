@@ -22,6 +22,13 @@
         v-if="state.isApiCallEnded"
         class="card"
       >
+        <button
+          class="button is-primary"
+          style="position: absolute; top: 12px; right: 12px;"
+          @click="redirectToReview()"
+        >
+          Avaliar
+        </button>
         <div class="card-content">
           <div class="media">
             <div class="media-left is-hidden-mobile">
@@ -111,6 +118,10 @@ export default defineComponent({
       }
     }
 
+    async function redirectToReview () {
+      await router.push({ path: `/animes/${state.anime.uuid}/review` })
+    }
+
     function openModal () {
       state.isModalOpen = true
     }
@@ -125,7 +136,7 @@ export default defineComponent({
 
     onBeforeMount(async () => await findAnime())
 
-    return { state, openModal, closeModal, formatDate }
+    return { state, openModal, closeModal, formatDate, redirectToReview }
   }
 })
 </script>

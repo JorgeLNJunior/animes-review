@@ -19,7 +19,7 @@ export interface UpdateAnime {
   synopsis?: string
   trailer?: string
   episodes?: number
-  releaseDate: string
+  releaseDate?: string
 }
 
 export interface AnimeQuery {

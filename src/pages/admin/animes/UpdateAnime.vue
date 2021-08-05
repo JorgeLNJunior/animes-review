@@ -10,7 +10,7 @@
           @submit.prevent="submit()"
         >
           <div class="columns is-centered">
-            <div class="column is-three-quarters">
+            <div class="column is-8">
               <div class="field">
                 <label class="label">Título</label>
                 <div class="control">
@@ -30,9 +30,9 @@
                 </div>
               </div>
             </div>
-            <div class="column">
+            <div class="column is-4">
               <div class="field">
-                <label class="label">Epiódios</label>
+                <label class="label">Episódios</label>
                 <div class="control">
                   <input
                     v-model.number="formState.episodes"
@@ -51,22 +51,37 @@
               </div>
             </div>
           </div>
-          <div class="field">
-            <label class="label">Trailer</label>
-            <div class="control">
-              <input
-                v-model="formState.trailer"
-                type="text"
-                class="input"
-                :class="{ 'is-danger': v$.trailer.$errors.length }"
-              >
-              <p
-                v-for="error of v$.trailer.$errors"
-                :key="error.$uid"
-                class="help is-danger"
-              >
-                {{ error.$message }}
-              </p>
+          <div class="columns is-centered">
+            <div class="column is-8">
+              <div class="field">
+                <label class="label">Trailer</label>
+                <div class="control">
+                  <input
+                    v-model="formState.trailer"
+                    type="text"
+                    class="input"
+                    :class="{ 'is-danger': v$.trailer.$errors.length }"
+                  >
+                  <p
+                    v-for="error of v$.trailer.$errors"
+                    :key="error.$uid"
+                    class="help is-danger"
+                  >
+                    {{ error.$message }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="column is-4">
+              <div class="field">
+                <label class="label">Data de estréia</label>
+                <div class="control">
+                  <button
+                    ref="calendarTrigger"
+                    type="button"
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div class="field">
@@ -106,7 +121,9 @@
 import { Anime, AnimeApi, UpdateAnime } from '@api/Anime'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers, integer, maxLength, minValue, required } from '@vuelidate/validators'
-import { defineComponent, onBeforeMount, reactive } from 'vue'
+import bulmaCalendar from 'bulma-calendar'
+import { format } from 'date-fns'
+import { defineComponent, onBeforeMount, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
@@ -124,6 +141,9 @@ export default defineComponent({
       isDisabled: false
     })
     const formState = reactive<UpdateAnime>({})
+    const calendarTrigger = ref()
+    let date = new Date()
+    let calendar: bulmaCalendar
 
     const rules = {
       title: {
@@ -157,6 +177,21 @@ export default defineComponent({
         formState.synopsis = state.anime.synopsis
         formState.trailer = state.anime.trailer
         formState.episodes = state.anime.episodes
+        formState.releaseDate = state.anime.releaseDate
+
+        calendar = bulmaCalendar.attach(calendarTrigger.value, {
+          type: 'date',
+          startDate: new Date(state.anime.releaseDate),
+          dateFormat: 'dd/MM/yyy',
+          lang: 'pt-BR',
+          showFooter: false,
+          showHeader: false
+        })[0]
+        calendar.on('select', (e) => {
+          date = new Date(e.timeStamp)
+          formState.releaseDate = format(date, 'yyy-MM-dd')
+          calendar.save()
+        })
       } catch (error) {
         console.log(error)
       }
@@ -184,7 +219,7 @@ export default defineComponent({
 
     onBeforeMount(async () => await findAnime())
 
-    return { state, formState, submit, v$ }
+    return { state, formState, submit, v$, calendarTrigger }
   }
 })
 </script>

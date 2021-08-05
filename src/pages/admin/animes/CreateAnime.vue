@@ -10,7 +10,7 @@
           @submit.prevent="submit()"
         >
           <div class="columns is-centered">
-            <div class="column is-three-quarters">
+            <div class="column is-8">
               <div class="field">
                 <label class="label">Título</label>
                 <div class="control">
@@ -30,9 +30,9 @@
                 </div>
               </div>
             </div>
-            <div class="column">
+            <div class="column is-4">
               <div class="field">
-                <label class="label">Epiódios</label>
+                <label class="label">Episódios</label>
                 <div class="control">
                   <input
                     v-model.number="formState.episodes"
@@ -52,7 +52,7 @@
             </div>
           </div>
           <div class="columns is-centered">
-            <div class="column is-three-quarters">
+            <div class="column is-8">
               <div class="field">
                 <label class="label">Trailer</label>
                 <div class="control">
@@ -72,7 +72,40 @@
                 </div>
               </div>
             </div>
-            <div class="column">
+            <div class="column is-4">
+              <div class="field">
+                <label class="label">Data de estréia</label>
+                <div class="control">
+                  <button
+                    ref="calendarTrigger"
+                    type="button"
+                  >
+                    Selecionar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Sinopse</label>
+            <div class="control">
+              <textarea
+                v-model="formState.synopsis"
+                type="text"
+                class="textarea"
+                :class="{ 'is-danger': v$.synopsis.$errors.length }"
+              />
+              <p
+                v-for="error of v$.synopsis.$errors"
+                :key="error.$uid"
+                class="help is-danger"
+              >
+                {{ error.$message }}
+              </p>
+            </div>
+          </div>
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
               <div
                 class="file is-boxed is-small is-centered mt-4"
                 :class="{ 'is-danger': false}"
@@ -111,24 +144,6 @@
               </div>
             </div>
           </div>
-          <div class="field">
-            <label class="label">Sinopse</label>
-            <div class="control">
-              <textarea
-                v-model="formState.synopsis"
-                type="text"
-                class="textarea"
-                :class="{ 'is-danger': v$.synopsis.$errors.length }"
-              />
-              <p
-                v-for="error of v$.synopsis.$errors"
-                :key="error.$uid"
-                class="help is-danger"
-              >
-                {{ error.$message }}
-              </p>
-            </div>
-          </div>
           <div class="has-text-centered">
             <button
               class="button is-primary "
@@ -148,7 +163,9 @@
 import { AnimeApi, UpdateAnime } from '@api/Anime'
 import { useVuelidate } from '@vuelidate/core'
 import { helpers, integer, maxLength, minValue, required } from '@vuelidate/validators'
-import { defineComponent, reactive, ref } from 'vue'
+import bulmaCalendar from 'bulma-calendar'
+import { format } from 'date-fns'
+import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
@@ -167,6 +184,25 @@ export default defineComponent({
     })
     const formState = reactive<UpdateAnime>({})
     const file = ref()
+    const calendarTrigger = ref()
+    let date = new Date()
+
+    onMounted(() => {
+      formState.releaseDate = format(date, 'yyy-MM-dd')
+      const calendar = bulmaCalendar.attach(calendarTrigger.value, {
+        type: 'date',
+        startDate: date,
+        dateFormat: 'dd/MM/yyy',
+        lang: 'pt-BR',
+        showFooter: false,
+        showHeader: false
+      })[0]
+      calendar.on('select', (e) => {
+        date = new Date(e.timeStamp)
+        formState.releaseDate = format(date, 'yyy-MM-dd')
+        calendar.save()
+      })
+    })
 
     const rules = {
       title: {
@@ -221,7 +257,7 @@ export default defineComponent({
       uiState.fileName = file.value.files[0].name
     }
 
-    return { uiState, formState, submit, v$, file, fileSelected }
+    return { uiState, formState, submit, v$, file, fileSelected, calendarTrigger }
   }
 })
 </script>

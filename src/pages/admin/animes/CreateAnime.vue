@@ -235,14 +235,23 @@ export default defineComponent({
           return
         }
 
+        if (file.value.files[0].size > 1000000) {
+          uiState.isFileError = true
+          uiState.fileErrorMsg = 'Não deve ser maior que 1MB'
+          return
+        }
+
         uiState.isLoading = true
         uiState.isDisabled = true
         const { uuid } = await animeApi.create(formState)
         await animeApi.upload(uuid, file.value.files[0])
         await router.push({ path: '/admin/animes', query: { status: 'success', message: 'Anime criado com sucesso' } })
       } catch (error) {
-        if (error.response.data.message) {
+        if (error.response.status === 400) {
           toast.error(error.response.data.message[0])
+        }
+        if (error.response.status === 500) {
+          toast.error('Ocorreu um erro inesperado')
         }
         console.log(error)
       } finally {

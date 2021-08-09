@@ -2,6 +2,7 @@ import 'bulma'
 import 'bulma-calendar/dist/css/bulma-calendar.min.css'
 import 'bulma-calendar/dist/js/bulma-calendar.min.js'
 import 'vue-toastification/dist/index.css'
+import '@creativebulma/bulma-divider/dist/bulma-divider.min.css'
 
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'

@@ -16,7 +16,7 @@
       </div>
     </div>
   </div>
-  <div class="columns is-centered my-3">
+  <div class="columns is-centered mt-3">
     <div class="column is-10">
       <div
         v-if="state.isApiCallEnded"
@@ -29,11 +29,11 @@
         >
           Avaliar
         </button>
-        <div class="card-content">
+        <div class="card-content is-clipped">
           <div class="media">
             <div class="media-left is-hidden-mobile">
               <img
-                class="cover"
+                class="cover is-clickable"
                 style="max-width: 130px;"
                 :src="state.anime.cover"
                 @click="openModal()"
@@ -56,7 +56,7 @@
                     </div>
                     <div class="column is-2">
                       <b>Nota: </b>
-                      <span>{{ state.anime.rating }}</span>
+                      <span>{{ state.anime.rating.toFixed(1) }}</span>
                     </div>
                     <div class="column is-2">
                       <b>Reviews: </b>
@@ -64,7 +64,9 @@
                     </div>
                   </div>
                 </div>
-                <span>{{ state.anime.synopsis }}</span>
+                <div class="has-text-justified">
+                  <span>{{ state.anime.synopsis }}</span>
+                </div>
                 <div class="has-text-centered mt-5">
                   <iframe
                     v-if="state.anime.trailer"
@@ -80,11 +82,22 @@
       </div>
     </div>
   </div>
-  <!-- TODO Listar os reviews do anime -->
+  <div class="columns is-centered">
+    <div class="column is-8">
+      <!-- eslint-disable-next-line vue/attribute-hyphenation -->
+      <ReviewList
+        v-for="review of state.reviews"
+        :key="review.uuid"
+        :review="review"
+      />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { Anime, AnimeApi } from '@api/Anime'
+import { Review, ReviewApi } from '@api/Review'
+import ReviewList from '@components/animes/ReviewListItem.vue'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { defineComponent, onBeforeMount, reactive } from 'vue'
@@ -92,11 +105,13 @@ import { useRoute, useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'ShowAnimePage',
+  components: { ReviewList },
   setup () {
     const route = useRoute()
     const router = useRouter()
     const state = reactive({
       anime: {} as Anime,
+      reviews: [] as Review[],
       isModalOpen: false,
       isApiCallEnded: false
     })
@@ -118,6 +133,10 @@ export default defineComponent({
       }
     }
 
+    async function findReviews () {
+      state.reviews = await new ReviewApi().findByAnimeUuid(state.anime.uuid)
+    }
+
     async function redirectToReview () {
       await router.push({ path: `/animes/${state.anime.uuid}/review` })
     }
@@ -134,9 +153,13 @@ export default defineComponent({
       return format(new Date(date), "d 'de' LLLL 'de' y", { locale: ptBR })
     }
 
-    onBeforeMount(async () => await findAnime())
+    onBeforeMount(async () => {
+      await findAnime()
+      await findReviews()
+      console.log(state.anime)
+    })
 
-    return { state, openModal, closeModal, formatDate, redirectToReview }
+    return { state, openModal, closeModal, formatDate, redirectToReview, route }
   }
 })
 </script>
@@ -147,9 +170,6 @@ export default defineComponent({
   border-width: 1px;
   border-radius: 3%;
   border-color: rgb(97, 97, 97);
-}
-.cover:hover {
-  cursor: pointer;
 }
 
 iframe {

@@ -7,6 +7,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@creativebulma/bulma-divider": "^1.1.0",
     "@vuelidate/core": "^2.0.0-alpha.21",
     "@vuelidate/validators": "^2.0.0-alpha.18",
     "axios": "^0.21.1",

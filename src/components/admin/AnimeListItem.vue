@@ -1,7 +1,11 @@
 <template>
-  <tr @click="redirect()">
-    <td>{{ anime.title }}</td>
-    <td><abbr :title="anime.synopsis">{{ anime.synopsis.slice(0, 50) }}...</abbr></td>
+  <tr>
+    <td @click="redirect()">
+      {{ anime.title }}
+    </td>
+    <td @click="redirect()">
+      <abbr :title="anime.synopsis">{{ anime.synopsis.slice(0, 50) }}...</abbr>
+    </td>
     <td>
       <button
         class="button is-info is-outlined"
@@ -10,7 +14,9 @@
         Ver
       </button>
     </td>
-    <td>{{ anime.episodes }}</td>
+    <td @click="redirect()">
+      {{ anime.episodes }}
+    </td>
     <td>
       <router-link :to="`/admin/animes/update/${anime.uuid}`">
         <button class="button is-info">

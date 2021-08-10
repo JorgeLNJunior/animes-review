@@ -26,23 +26,11 @@
 
 <script lang="ts">
 import LoginForm from '@components/forms/LoginForm.vue'
-import { defineComponent, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
-import { useToast } from 'vue-toastification'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'LoginPage',
-  components: { LoginForm },
-  setup () {
-    const route = useRoute()
-    const toast = useToast()
-
-    onMounted(() => {
-      if (route.query.message) {
-        toast(route.query.message)
-      }
-    })
-  }
+  components: { LoginForm }
 })
 </script>
 

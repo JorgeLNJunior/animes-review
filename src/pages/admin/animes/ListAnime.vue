@@ -51,11 +51,9 @@ import { useMainStore } from '@store/main.store'
 import {
   defineComponent,
   onBeforeMount,
-  onMounted,
   reactive,
   watch
 } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
 export default defineComponent({
@@ -70,8 +68,6 @@ export default defineComponent({
     const animeApi = new AnimeApi()
     const toast = useToast()
     const store = useMainStore()
-    const route = useRoute()
-    const router = useRouter()
     const state = reactive({
       animes: [] as Anime[],
       isLoading: false
@@ -93,16 +89,6 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await findAnimes()
-    })
-    onMounted(() => {
-      if (route.query.status === 'error') {
-        toast.error(String(route.query.message))
-        router.replace({ query: { message: null, status: null } })
-      }
-      if (route.query.status === 'success') {
-        toast.success(String(route.query.message))
-        router.replace({ query: { message: null, status: null } })
-      }
     })
     watch(
       () => store.$state.animeQuery,

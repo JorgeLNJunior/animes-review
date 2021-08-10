@@ -1,6 +1,9 @@
 import { token } from '@api/token.interface'
 import decode from 'jwt-decode'
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { useToast } from 'vue-toastification'
+
+const toast = useToast()
 
 const routes: RouteRecordRaw[] = [
   {
@@ -58,6 +61,7 @@ router.beforeEach((to, from, next) => {
       path: '/login',
       query: {
         message: 'Você deve estar logado',
+        status: 'error',
         redirect: to.path
       }
     })
@@ -74,7 +78,22 @@ router.beforeEach((to, from, next) => {
     return
   }
 
-  next()
+  if (to.query.status) {
+    if (to.query.status === 'error') {
+      setTimeout(() => toast.error(to.query.message as string), 500)
+    }
+    if (to.query.status === 'success') {
+      setTimeout(() => toast.success(to.query.message as string), 500)
+    }
+    if (to.query.status === 'default') {
+      setTimeout(() => toast(to.query.message as string), 500)
+    }
+    router.push({
+      path: to.path, params: to.params, query: { ...to.query, status: undefined, message: undefined }
+    })
+  } else {
+    next()
+  }
 })
 
 function hasValidToken () {

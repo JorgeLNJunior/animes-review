@@ -156,7 +156,6 @@ export default defineComponent({
     onBeforeMount(async () => {
       await findAnime()
       await findReviews()
-      console.log(state.anime)
     })
 
     return { state, openModal, closeModal, formatDate, redirectToReview, route }

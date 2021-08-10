@@ -73,12 +73,14 @@ import { useVuelidate } from '@vuelidate/core'
 import { helpers, required } from '@vuelidate/validators'
 import decode from 'jwt-decode'
 import { defineComponent, reactive } from 'vue'
+import { useRoute } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
 export default defineComponent({
   name: 'LoginForm',
   setup () {
     const toast = useToast()
+    const route = useRoute()
 
     const formState = reactive({
       email: '',
@@ -110,6 +112,10 @@ export default defineComponent({
 
         const user: token = decode(token)
 
+        if (route.query.redirect) {
+          window.location.replace(route.query.redirect as string)
+          return
+        }
         if (user.isAdmin) {
           window.location.replace('/admin')
         } else {

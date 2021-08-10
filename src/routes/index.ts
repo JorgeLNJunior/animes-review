@@ -15,7 +15,10 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/admin',
     component: () => import('@pages/admin/AdminHome.vue'),
-    meta: { requiresAuth: true },
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    },
     children: [
       {
         path: 'animes/',
@@ -58,9 +61,20 @@ router.beforeEach((to, from, next) => {
         redirect: to.path
       }
     })
-  } else {
-    next()
+    return
   }
+  if (to.meta.requiresAdmin && !isAdmin()) {
+    next({
+      path: '/',
+      query: {
+        message: 'Você não tem permissão',
+        status: 'error'
+      }
+    })
+    return
+  }
+
+  next()
 })
 
 function hasValidToken () {
@@ -73,4 +87,11 @@ function hasValidToken () {
   if (isExpired) return false
 
   return true
+}
+
+function isAdmin () {
+  const token = localStorage.getItem('token')
+  const decoded: token = decode(token as string)
+  if (decoded.isAdmin) return true
+  return false
 }

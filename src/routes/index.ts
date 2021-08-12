@@ -103,7 +103,10 @@ function hasValidToken () {
   const decoded: token = decode(token)
   const isExpired = Date.now() >= decoded.exp * 1000
 
-  if (isExpired) return false
+  if (isExpired) {
+    localStorage.removeItem('token')
+    return false
+  }
 
   return true
 }

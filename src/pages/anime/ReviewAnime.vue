@@ -14,7 +14,7 @@
                 <div class="column is-10">
                   <div class="field">
                     <label class="label">Título</label>
-                    <div class="control">
+                    <div class="control has-icons-left">
                       <input
                         v-model="formState.title"
                         type="text"
@@ -22,6 +22,9 @@
                         placeholder="Título"
                         :class="{ 'is-danger': v$.title.$errors.length }"
                       >
+                      <div class="icon is-small is-left">
+                        <i class="fas fa-heading" />
+                      </div>
                       <p
                         v-for="error of v$.title.$errors"
                         :key="error.$uid"
@@ -35,14 +38,19 @@
                 <div class="column is-2">
                   <div class="field">
                     <label class="label">Nota</label>
-                    <div class="select">
-                      <select v-model="formState.rating">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                      </select>
+                    <div class="control has-icons-left">
+                      <div class="select">
+                        <select v-model="formState.rating">
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                        </select>
+                      </div>
+                      <div class="icon is-small is-left">
+                        <i class="fas fa-star" />
+                      </div>
                     </div>
                   </div>
                 </div>

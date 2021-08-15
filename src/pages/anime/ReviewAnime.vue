@@ -3,8 +3,11 @@
     <div class="column is-8">
       <div class="card">
         <div class="card-header has-text-centered">
-          <p class="card-header-title">
-            To Your Eternity
+          <p
+            v-if="anime"
+            class="card-header-title"
+          >
+            {{ anime.title }}
           </p>
         </div>
         <div class="card-content">
@@ -95,13 +98,13 @@
 </template>
 
 <script lang="ts">
-import { AnimeApi } from '@api/Anime'
+import { Anime, AnimeApi } from '@api/Anime'
 import { ReviewApi } from '@api/Review'
 import { token } from '@api/token.interface'
 import useVuelidate from '@vuelidate/core'
 import { helpers, maxLength, required } from '@vuelidate/validators'
 import decode from 'jwt-decode'
-import { defineComponent, onBeforeMount, reactive } from 'vue'
+import { defineComponent, onBeforeMount, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
@@ -122,6 +125,7 @@ export default defineComponent({
       isFormDisabled: false,
       isLoading: false
     })
+    const anime = ref<Anime>()
 
     const rules = {
       title: {
@@ -137,11 +141,13 @@ export default defineComponent({
     const v$ = useVuelidate(rules, formState, { $autoDirty: true })
 
     async function findAnime () {
-      const anime = await new AnimeApi().find({ uuid: route.params.uuid as string })
-      if (!anime[0]) {
+      const animes = await new AnimeApi().find({ uuid: route.params.uuid as string })
+      if (!animes[0]) {
         toast.error('Anime não encontrado')
         uiState.isFormDisabled = true
       }
+
+      anime.value = animes[0]
     }
 
     async function verifyIfUserAlreadyReviewed () {
@@ -185,7 +191,7 @@ export default defineComponent({
       await verifyIfUserAlreadyReviewed()
     })
 
-    return { formState, uiState, submit, v$ }
+    return { formState, uiState, submit, v$, anime }
   }
 })
 </script>

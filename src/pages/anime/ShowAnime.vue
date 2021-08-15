@@ -70,9 +70,11 @@
                 <div class="has-text-centered mt-5">
                   <iframe
                     v-if="state.anime.trailer"
+                    v-show="state.isIframeLoaded"
                     width="426px"
                     height="240px"
                     :src="`https://youtube.com/embed/${state.anime.trailer.split('?v=').pop()}?controls=0`"
+                    @load="showIframe()"
                   />
                 </div>
               </div>
@@ -113,7 +115,8 @@ export default defineComponent({
       anime: {} as Anime,
       reviews: [] as Review[],
       isModalOpen: false,
-      isApiCallEnded: false
+      isApiCallEnded: false,
+      isIframeLoaded: false
     })
 
     async function findAnime () {
@@ -153,12 +156,16 @@ export default defineComponent({
       return format(new Date(date), "d 'de' LLLL 'de' y", { locale: ptBR })
     }
 
+    function showIframe () {
+      state.isIframeLoaded = true
+    }
+
     onBeforeMount(async () => {
       await findAnime()
       await findReviews()
     })
 
-    return { state, openModal, closeModal, formatDate, redirectToReview, route }
+    return { state, openModal, closeModal, formatDate, redirectToReview, route, showIframe }
   }
 })
 </script>

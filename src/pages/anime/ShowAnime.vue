@@ -137,7 +137,7 @@ export default defineComponent({
     }
 
     async function findReviews () {
-      state.reviews = await new ReviewApi().findByAnimeUuid(state.anime.uuid)
+      state.reviews = await new ReviewApi().find({ animeUuid: state.anime.uuid as string, take: 10 })
     }
 
     async function redirectToReview () {

@@ -9,28 +9,18 @@
         </div>
       </div>
     </div>
-    <div class="has-text-centered">
-      <p class="has-text-grey-lighter">
-        arte por
-        <a
-          class="has-text-grey-darker"
-          href="https://www.deviantart.com/richtsu"
-          target="_blank"
-        >
-          <strong>richtsu</strong>
-        </a>
-      </p>
-    </div>
+    <AuthFooter />
   </section>
 </template>
 
 <script lang="ts">
+import AuthFooter from '@components/auth/AuthFooter.vue'
 import LoginForm from '@components/forms/LoginForm.vue'
 import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'LoginPage',
-  components: { LoginForm }
+  components: { LoginForm, AuthFooter }
 })
 </script>
 

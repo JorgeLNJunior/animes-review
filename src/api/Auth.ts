@@ -2,6 +2,20 @@ import { AxiosInstance } from 'axios'
 
 import { http } from './axios'
 
+export interface User {
+  uuid: string,
+  name: string,
+  email: string,
+  password: string,
+  avatar: string,
+}
+
+export interface UserForm {
+  name: string,
+  email: string,
+  password: string,
+}
+
 export class Auth {
   private axios: AxiosInstance
 
@@ -15,5 +29,10 @@ export class Auth {
       password: password
     })
     return response.data.token as string
+  }
+
+  async register (form: UserForm) {
+    const response = await this.axios.post('/register', form)
+    return response.data.user as User
   }
 }

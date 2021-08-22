@@ -16,6 +16,10 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@pages/Login.vue')
   },
   {
+    path: '/register',
+    component: () => import('@pages/auth/Register.vue')
+  },
+  {
     path: '/admin',
     component: () => import('@pages/admin/AdminHome.vue'),
     meta: {

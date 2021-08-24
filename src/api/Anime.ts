@@ -50,6 +50,15 @@ export class AnimeApi {
     return response.data.animes as Anime[]
   }
 
+  async findTop10 () {
+    const token = localStorage.getItem('token')
+    const response = await this.axios.get('/animes/top', {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+
+    return response.data.animes as Anime[]
+  }
+
   async create (anime: UpdateAnime) {
     const token = localStorage.getItem('token')
     const response = await this.axios.post('/animes', anime, {

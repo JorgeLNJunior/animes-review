@@ -7,55 +7,64 @@ const toast = useToast()
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/',
-    component: () => import('@components/HelloWorld.vue'),
-    meta: { requiresAuth: true }
-  },
-  {
     path: '/login',
-    component: () => import('@pages/Login.vue')
+    component: () => import('@pages/auth/Login.vue')
   },
   {
     path: '/register',
     component: () => import('@pages/auth/Register.vue')
   },
   {
-    path: '/admin',
-    component: () => import('@pages/admin/AdminHome.vue'),
-    meta: {
-      requiresAuth: true,
-      requiresAdmin: true
-    },
-    children: [
-      {
-        path: 'animes/',
-        component: () => import('@pages/admin/animes/ListAnime.vue')
-      },
-      {
-        path: 'animes/update/:uuid',
-        component: () => import('@pages/admin/animes/UpdateAnime.vue')
-      },
-      {
-        path: 'animes/new',
-        component: () => import('@pages/admin/animes/CreateAnime.vue')
-      }
-    ]
-  },
-  {
-    path: '/animes',
-    component: () => import('@pages/anime/AnimeHome.vue'),
+    path: '/',
+    component: () => import('@pages/Main.vue'),
     meta: { requiresAuth: true },
     children: [
       {
-        path: ':uuid',
-        component: () => import('@pages/anime/ShowAnime.vue')
+        path: '/home',
+        component: () => import('@pages/Home.vue')
       },
       {
-        path: ':uuid/review',
-        component: () => import('@pages/anime/ReviewAnime.vue')
+        path: 'admin',
+        component: () => import('@pages/admin/AdminMain.vue'),
+        meta: {
+          requiresAdmin: true
+        },
+        children: [
+          {
+            path: 'home',
+            component: () => import('@pages/admin/AdminHome.vue')
+          },
+          {
+            path: 'animes',
+            component: () => import('@pages/admin/animes/ListAnime.vue')
+          },
+          {
+            path: 'animes/update/:uuid',
+            component: () => import('@pages/admin/animes/UpdateAnime.vue')
+          },
+          {
+            path: 'animes/new',
+            component: () => import('@pages/admin/animes/CreateAnime.vue')
+          }
+        ]
+      },
+      {
+        path: 'animes',
+        component: () => import('@pages/anime/AnimeHome.vue'),
+        children: [
+          {
+            path: ':uuid',
+            component: () => import('@pages/anime/ShowAnime.vue')
+          },
+          {
+            path: ':uuid/review',
+            component: () => import('@pages/anime/ReviewAnime.vue')
+          }
+        ]
       }
     ]
   }
+
 ]
 
 export const router = createRouter({
@@ -64,6 +73,15 @@ export const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  if (to.path === '/') {
+    next({ path: '/home', query: to.query })
+    return
+  }
+  if (to.path === '/admin') {
+    next({ path: '/admin/home', query: to.query })
+    return
+  }
+
   if (to.meta.requiresAuth && !hasValidToken()) {
     next({
       path: '/login',
@@ -86,6 +104,7 @@ router.beforeEach((to, from, next) => {
     return
   }
 
+  // Global toast by route query
   if (to.query.status) {
     if (to.query.status === 'error') {
       setTimeout(() => toast.error(to.query.message as string), 500)
@@ -96,6 +115,7 @@ router.beforeEach((to, from, next) => {
     if (to.query.status === 'default') {
       setTimeout(() => toast(to.query.message as string), 500)
     }
+    // Remove toast query params
     router.push({
       path: to.path, params: to.params, query: { ...to.query, status: undefined, message: undefined }
     })

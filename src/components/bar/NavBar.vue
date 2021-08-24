@@ -6,7 +6,7 @@
   >
     <div class="navbar-brand">
       <a
-        href="/admin/home"
+        href="/home"
         class="navbar-item"
       >
         <img
@@ -58,7 +58,7 @@ import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
-  name: 'AdminNavBar',
+  name: 'NavBar',
   setup () {
     const router = useRouter()
 

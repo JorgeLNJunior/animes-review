@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Admin Home Page</h1>
+    <h1>Home Page</h1>
   </div>
 </template>
 
@@ -8,6 +8,6 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'AdminHomePage'
+  name: 'HomePage'
 })
 </script>

@@ -1,13 +1,15 @@
 <template>
   <div>
-    <h1>Admin Home Page</h1>
+    <router-view />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import {
+  defineComponent
+} from 'vue'
 
 export default defineComponent({
-  name: 'AdminHomePage'
+  name: 'AdminMain'
 })
 </script>

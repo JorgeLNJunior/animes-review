@@ -235,7 +235,7 @@ export default defineComponent({
           return
         }
 
-        if (file.value.files[0].size > 1000000) {
+        if (file.value.files[0].size > 3000000) {
           uiState.isFileError = true
           uiState.fileErrorMsg = 'Não deve ser maior que 1MB'
           return

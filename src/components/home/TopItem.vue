@@ -1,6 +1,7 @@
 <template>
   <router-link
     :to="`/animes/${anime.uuid}`"
+    target="_blank"
     style="text-decoration: none; color: inherit;"
   >
     <div class="columns my-1">

@@ -13,7 +13,13 @@
         <div class="media-content">
           <div class="content">
             <div class="mt-2">
-              <strong>{{ review.user.name }}</strong>
+              <router-link
+                :to="`/users/${review.user.uuid}`"
+                target="_blank"
+                style="text-decoration: none; color: inherit;"
+              >
+                <strong>{{ review.user.name }}</strong>
+              </router-link>
               <div class="columns is-centered is-gapless">
                 <div class="column is-1 has-text-centered is-size-6">
                   <strong>Nota: </strong>

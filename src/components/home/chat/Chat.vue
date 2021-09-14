@@ -20,7 +20,13 @@
             </p>
           </figure>
           <div>
-            <span class="has-text-black">@{{ msg.username }}: </span>
+            <router-link
+              :to="`/users/${msg.userUuid}`"
+              target="_blank"
+              style="text-decoration: none; color: inherit;"
+            >
+              <span class="has-text-black">@{{ msg.username }}: </span>
+            </router-link>
             <span class="line-break">{{ msg.message }}</span>
           </div>
         </article>
@@ -97,6 +103,7 @@ export default defineComponent({
       if (state.message.length <= 0) return
 
       socket.emit('chat', {
+        userUuid: state.user.uuid,
         avatar: state.user.avatar,
         username: state.user.name,
         message: state.message

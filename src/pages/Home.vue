@@ -1,7 +1,7 @@
 <template>
   <div class="columns is-centered mt-3 mr-2 ml-2">
-    <div class="column is-9">
-      <h1>Left</h1>
+    <div class="column is-8">
+      <Chat />
     </div>
     <div class="column is-3">
       <div class="card">
@@ -25,12 +25,13 @@
 
 <script lang="ts">
 import { Anime, AnimeApi } from '@api/Anime'
+import Chat from '@components/home/chat/Chat.vue'
 import TopItem from '@components/home/TopItem.vue'
 import { defineComponent, onBeforeMount, reactive } from 'vue'
 
 export default defineComponent({
   name: 'HomePage',
-  components: { TopItem },
+  components: { TopItem, Chat },
   setup () {
     const animeApi = new AnimeApi()
     const state = reactive({

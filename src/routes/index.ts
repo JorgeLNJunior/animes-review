@@ -61,6 +61,10 @@ const routes: RouteRecordRaw[] = [
             component: () => import('@pages/anime/ReviewAnime.vue')
           }
         ]
+      },
+      {
+        path: 'users/:uuid',
+        component: () => import('@pages/user/SingleUser.vue')
       }
     ]
   }

@@ -50,19 +50,32 @@
       </div>
     </div>
 
-    <button
-      class="button is-primary is-fullwidth mt-5"
-      :class="{ 'is-loading': uiState.loginBtn.isLoading }"
-      type="submit"
-      :disabled="uiState.loginBtn.isDisabled"
-    >
-      <span class="icon">
-        <i class="fas fa-sign-in-alt" />
-      </span>
-      <span>
-        Entrar
-      </span>
-    </button>
+    <div class="has-text-centered">
+      <button
+        class="button is-primary is-fullwidth mt-5"
+        :class="{ 'is-loading': uiState.loginBtn.isLoading }"
+        type="submit"
+        :disabled="uiState.loginBtn.isDisabled"
+      >
+        <span class="icon">
+          <i class="fas fa-sign-in-alt" />
+        </span>
+        <span>
+          Entrar
+        </span>
+      </button>
+      <router-link
+        to="/register"
+        style="text-decoration: none; color: inherit;"
+      >
+        <button
+          class="button is-ghost"
+          @submit.prevent
+        >
+          Registrar-se
+        </button>
+      </router-link>
+    </div>
   </form>
 </template>
 

@@ -77,21 +77,9 @@
                   :href="`/animes/${anime.uuid}`"
                   class="dropdown-item"
                 >
-                  <div class="media">
-                    <div class="media-left">
-                      <figure class="image is-28x28">
-                        <img
-                          :src="anime.cover"
-                          class="cover"
-                        >
-                      </figure>
-                    </div>
-                    <div class="media-content">
-                      <p class="title is-6">
-                        {{ anime.title }}
-                      </p>
-                    </div>
-                  </div>
+                  <p class="title is-6">
+                    {{ anime.title }}
+                  </p>
                 </a>
               </div>
             </div>

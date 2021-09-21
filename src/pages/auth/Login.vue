@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import AuthFooter from '@components/auth/AuthFooter.vue'
-import LoginForm from '@components/forms/LoginForm.vue'
+import LoginForm from '@components/auth/LoginForm.vue'
 import { defineComponent } from 'vue'
 
 export default defineComponent({

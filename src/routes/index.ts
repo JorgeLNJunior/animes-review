@@ -24,31 +24,6 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@pages/Home.vue')
       },
       {
-        path: 'admin',
-        component: () => import('@pages/admin/AdminMain.vue'),
-        meta: {
-          requiresAdmin: true
-        },
-        children: [
-          {
-            path: 'home',
-            component: () => import('@pages/admin/AdminHome.vue')
-          },
-          {
-            path: 'animes',
-            component: () => import('@pages/admin/animes/ListAnime.vue')
-          },
-          {
-            path: 'animes/update/:uuid',
-            component: () => import('@pages/admin/animes/UpdateAnime.vue')
-          },
-          {
-            path: 'animes/new',
-            component: () => import('@pages/admin/animes/CreateAnime.vue')
-          }
-        ]
-      },
-      {
         path: 'animes',
         component: () => import('@pages/anime/AnimeHome.vue'),
         children: [
@@ -65,6 +40,31 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'users/:uuid',
         component: () => import('@pages/user/SingleUser.vue')
+      }
+    ]
+  },
+  {
+    path: '/admin',
+    component: () => import('@pages/admin/AdminMain.vue'),
+    meta: {
+      requiresAdmin: true
+    },
+    children: [
+      {
+        path: 'home',
+        component: () => import('@pages/admin/AdminHome.vue')
+      },
+      {
+        path: 'animes',
+        component: () => import('@pages/admin/animes/ListAnime.vue')
+      },
+      {
+        path: 'animes/update/:uuid',
+        component: () => import('@pages/admin/animes/UpdateAnime.vue')
+      },
+      {
+        path: 'animes/new',
+        component: () => import('@pages/admin/animes/CreateAnime.vue')
       }
     ]
   }

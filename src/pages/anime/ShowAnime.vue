@@ -1,81 +1,83 @@
 <template>
-  <div
-    class="modal is-hidden-mobile"
-    :class="{ 'is-active': state.isModalOpen }"
-  >
+  <div>
     <div
-      class="modal-background"
-      @click="closeModal()"
-    />
-    <div class="modal-content">
-      <div class="has-text-centered">
-        <img
-          style="max-width: 300px;"
-          :src="state.anime.cover"
-        >
+      class="modal is-hidden-mobile"
+      :class="{ 'is-active': state.isModalOpen }"
+    >
+      <div
+        class="modal-background"
+        @click="closeModal()"
+      />
+      <div class="modal-content">
+        <div class="has-text-centered">
+          <img
+            style="max-width: 300px;"
+            :src="state.anime.cover"
+          >
+        </div>
       </div>
     </div>
-  </div>
-  <div class="columns is-centered mt-3">
-    <div class="column is-10">
-      <div
-        v-if="state.isApiCallEnded"
-        class="card"
-      >
-        <button
-          class="button is-primary"
-          style="position: absolute; top: 12px; right: 12px;"
-          @click="redirectToReview()"
+    <div class="columns is-centered mt-3">
+      <div class="column is-10">
+        <div
+          v-if="state.isApiCallEnded"
+          class="card"
         >
-          Avaliar
-        </button>
-        <div class="card-content is-clipped">
-          <div class="media">
-            <div class="media-left is-hidden-mobile">
-              <img
-                class="cover is-clickable"
-                style="max-width: 130px;"
-                :src="state.anime.cover"
-                @click="openModal()"
-              >
-            </div>
-            <div class="media-content">
-              <div class="content">
-                <p class="title is-4">
-                  {{ state.anime.title }}
-                </p>
-                <div class="mb-4">
-                  <div class="columns">
-                    <div class="column is-2">
-                      <b>Episódios: </b>
-                      <span>{{ state.anime.episodes }}</span>
-                    </div>
-                    <div class="column is-4">
-                      <b>Lançamento: </b>
-                      <span>{{ formatDate(state.anime.releaseDate.replaceAll('-', ', ')) }}</span>
-                    </div>
-                    <div class="column is-2">
-                      <b>Nota: </b>
-                      <span>{{ state.anime.rating.toFixed(1) }}</span>
-                    </div>
-                    <div class="column is-2">
-                      <b>Reviews: </b>
-                      <span>{{ state.anime.reviews }}</span>
+          <button
+            class="button is-primary"
+            style="position: absolute; top: 12px; right: 12px;"
+            @click="redirectToReview()"
+          >
+            Avaliar
+          </button>
+          <div class="card-content is-clipped">
+            <div class="media">
+              <div class="media-left is-hidden-mobile">
+                <img
+                  class="cover is-clickable"
+                  style="max-width: 130px;"
+                  :src="state.anime.cover"
+                  @click="openModal()"
+                >
+              </div>
+              <div class="media-content">
+                <div class="content">
+                  <p class="title is-4">
+                    {{ state.anime.title }}
+                  </p>
+                  <div class="mb-4">
+                    <div class="columns">
+                      <div class="column is-2">
+                        <b>Episódios: </b>
+                        <span>{{ state.anime.episodes }}</span>
+                      </div>
+                      <div class="column is-4">
+                        <b>Lançamento: </b>
+                        <span>{{ formatDate(state.anime.releaseDate.replaceAll('-', ', ')) }}</span>
+                      </div>
+                      <div class="column is-2">
+                        <b>Nota: </b>
+                        <span>{{ state.anime.rating.toFixed(1) }}</span>
+                      </div>
+                      <div class="column is-2">
+                        <b>Reviews: </b>
+                        <span>{{ state.anime.reviews }}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="has-text-justified">
-                  <span>{{ state.anime.synopsis }}</span>
-                </div>
-                <div class="has-text-centered mt-5">
-                  <iframe
-                    v-if="state.anime.trailer"
-                    v-show="state.isIframeLoaded"
-                    width="426px"
-                    height="240px"
-                    :src="`https://youtube.com/embed/${state.anime.trailer.split('?v=').pop()}?controls=0`"
-                    @load="showIframe()"
-                  />
+                  <div class="has-text-justified">
+                    <span>{{ state.anime.synopsis }}</span>
+                  </div>
+                  <div class="has-text-centered mt-5">
+                    <iframe
+                      v-if="state.anime.trailer"
+                      v-show="state.isIframeLoaded"
+                      width="426px"
+                      height="240px"
+                      :src="`https://youtube.com/embed/${state.anime.trailer.split('?v=').pop()}?controls=0`"
+                      @load="showIframe()"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -83,15 +85,15 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="columns is-centered">
-    <div class="column is-8">
-      <!-- eslint-disable-next-line vue/attribute-hyphenation -->
-      <ReviewList
-        v-for="review of state.reviews"
-        :key="review.uuid"
-        :review="review"
-      />
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <!-- eslint-disable-next-line vue/attribute-hyphenation -->
+        <ReviewList
+          v-for="review of state.reviews"
+          :key="review.uuid"
+          :review="review"
+        />
+      </div>
     </div>
   </div>
 </template>

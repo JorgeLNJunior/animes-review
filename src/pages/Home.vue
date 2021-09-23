@@ -35,21 +35,13 @@ export default defineComponent({
   setup () {
     const animeApi = new AnimeApi()
     const state = reactive({
-      top10: [] as Anime[],
-      animes: {} as Anime[]
+      top10: [] as Anime[]
     })
 
-    onBeforeMount(async () => {
-      await findTop10()
-      await findAnimes()
-    })
+    onBeforeMount(async () => await findTop10())
 
     async function findTop10 () {
       state.top10 = await animeApi.findTop10()
-    }
-
-    async function findAnimes () {
-      state.animes = await animeApi.find({ take: 10 })
     }
 
     return { state }

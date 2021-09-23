@@ -5,8 +5,8 @@
     aria-label="main navigation"
   >
     <div class="navbar-brand">
-      <a
-        href="/home"
+      <router-link
+        to="/home"
         class="navbar-item"
       >
         <img
@@ -14,7 +14,7 @@
           width="112"
           height="28"
         >
-      </a>
+      </router-link>
 
       <a
         role="button"
@@ -33,12 +33,12 @@
       :class="{ 'is-active': state.isMenuActive }"
     >
       <div class="navbar-start">
-        <a
+        <router-link
           class="navbar-item"
-          href="/animes"
+          to="/animes"
         >
           Animes
-        </a>
+        </router-link>
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
@@ -71,16 +71,16 @@
               role="menu"
             >
               <div class="dropdown-content">
-                <a
+                <router-link
                   v-for="anime of state.dropDownAnimeList"
                   :key="anime.uuid"
-                  :href="`/animes/${anime.uuid}`"
+                  :to="`/animes/${anime.uuid}`"
                   class="dropdown-item"
                 >
                   <p class="title is-6">
                     {{ anime.title }}
                   </p>
-                </a>
+                </router-link>
               </div>
             </div>
           </div>

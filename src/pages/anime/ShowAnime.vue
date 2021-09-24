@@ -87,11 +87,11 @@
     </div>
     <div class="columns is-centered">
       <div class="column is-8">
-        <!-- eslint-disable-next-line vue/attribute-hyphenation -->
         <ReviewList
           v-for="review of state.reviews"
           :key="review.uuid"
           :review="review"
+          :has-modify-permission="checkPermission(review.user.uuid)"
         />
       </div>
     </div>
@@ -102,6 +102,7 @@
 import { Anime, AnimeApi } from '@api/Anime'
 import { Review, ReviewApi } from '@api/Review'
 import ReviewList from '@components/animes/ReviewListItem.vue'
+import { hasModifyPermission } from '@helpers/helpers'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { defineComponent, onBeforeMount, reactive } from 'vue'
@@ -146,6 +147,10 @@ export default defineComponent({
       await router.push({ path: `/animes/${state.anime.uuid}/review` })
     }
 
+    function checkPermission (userUuid: string) {
+      return hasModifyPermission(userUuid)
+    }
+
     function openModal () {
       state.isModalOpen = true
     }
@@ -167,7 +172,7 @@ export default defineComponent({
       await findReviews()
     })
 
-    return { state, openModal, closeModal, formatDate, redirectToReview, route, showIframe }
+    return { state, openModal, closeModal, formatDate, redirectToReview, route, showIframe, checkPermission }
   }
 })
 </script>

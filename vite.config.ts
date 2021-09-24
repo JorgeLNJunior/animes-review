@@ -11,7 +11,8 @@ export default defineConfig({
       '@pages': resolve(__dirname, '/src/pages'),
       '@assets': resolve(__dirname, '/src/assets'),
       '@api': resolve(__dirname, '/src/api'),
-      '@store': resolve(__dirname, '/src/store')
+      '@store': resolve(__dirname, '/src/store'),
+      '@helpers': resolve(__dirname, '/src/helpers')
     }
   },
   server: {

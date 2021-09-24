@@ -1,6 +1,27 @@
 <template>
   <div class="card block">
     <div class="card-content">
+      <div
+        v-if="hasModifyPermission"
+        class="top-right-item columns"
+      >
+        <div class="column is-4">
+          <button class="button is-danger is-inverted">
+            <span class="icon is-small">
+              <i class="fas fa-trash-alt" />
+            </span>
+          </button>
+        </div>
+        <div class="column is-4">
+          <router-link :to="`/reviews/${review.uuid}/update`">
+            <button class="button is-info is-inverted">
+              <span class="icon is-small">
+                <i class="fas fa-pen" />
+              </span>
+            </button>
+          </router-link>
+        </div>
+      </div>
       <article class="media">
         <figure class="media-left">
           <p class="image is-48x48">
@@ -71,6 +92,11 @@ export default defineComponent({
     review: {
       type: Object as PropType<Review>,
       required: true
+    },
+    hasModifyPermission: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   setup () {
@@ -90,3 +116,11 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped>
+.top-right-item {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+</style>

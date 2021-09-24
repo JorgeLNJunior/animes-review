@@ -29,10 +29,11 @@
     </div>
     <div class="columns is-centered">
       <div class="column is-8">
-        <ReviewList
+        <ReviewListItem
           v-for="review of state.reviews"
           :key="review.uuid"
           :review="review"
+          :has-modify-permission="checkPermission(review.user.uuid)"
         />
       </div>
     </div>
@@ -42,13 +43,14 @@
 <script lang="ts">
 import { Review, ReviewApi } from '@api/Review'
 import { User, UserApi } from '@api/User'
-import ReviewList from '@components/animes/ReviewListItem.vue'
+import ReviewListItem from '@components/animes/ReviewListItem.vue'
+import { hasModifyPermission } from '@helpers/helpers'
 import { defineComponent, onBeforeMount, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'SingleUser',
-  components: { ReviewList },
+  components: { ReviewListItem },
   setup () {
     const route = useRoute()
     const router = useRouter()
@@ -79,12 +81,16 @@ export default defineComponent({
       state.reviews = await new ReviewApi().find({ userUuid: state.user.uuid as string, take: 10 })
     }
 
+    function checkPermission (userUuid: string) {
+      return hasModifyPermission(userUuid)
+    }
+
     onBeforeMount(async () => {
       await findUser()
       await findReviews()
     })
 
-    return { state, route }
+    return { state, route, checkPermission }
   }
 })
 </script>

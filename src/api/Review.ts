@@ -20,6 +20,12 @@ export interface ReviewForm {
   rating: number;
 }
 
+export interface UpdateReviewForm {
+  title: string;
+  description: string;
+  rating: number;
+}
+
 export interface ReviewQuery {
   uuid?: string;
   animeUuid?: string;
@@ -57,6 +63,17 @@ export class ReviewApi {
 
     const token = localStorage.getItem('token')
     const response = await this.axios.post('/reviews', form, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+
+    return response.data.review as Review
+  }
+
+  async update (uuid: string, form: UpdateReviewForm) {
+    form.rating = Number(form.rating)
+
+    const token = localStorage.getItem('token')
+    const response = await this.axios.patch(`/reviews/${uuid}`, form, {
       headers: { Authorization: `Bearer ${token}` }
     })
 

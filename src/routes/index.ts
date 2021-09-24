@@ -38,6 +38,10 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'users/:uuid',
         component: () => import('@pages/user/SingleUser.vue')
+      },
+      {
+        path: 'reviews/:uuid/update',
+        component: () => import('@pages/review/UpdateReview.vue')
       }
     ]
   },

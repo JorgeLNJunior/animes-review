@@ -1,12 +1,19 @@
 <template>
-  <div class="card block">
+  <div
+    v-if="!state.isDestroyed"
+    class="card block"
+  >
     <div class="card-content">
       <div
         v-if="hasModifyPermission"
         class="top-right-item columns"
       >
         <div class="column is-4">
-          <button class="button is-danger is-inverted">
+          <button
+            class="button is-danger is-inverted"
+            :class="{ 'is-loading': state.isDeleteBtnLoading }"
+            @click="deleteReview()"
+          >
             <span class="icon is-small">
               <i class="fas fa-trash-alt" />
             </span>
@@ -84,8 +91,9 @@
 </template>
 
 <script lang="ts">
-import { Review } from '@api/Review'
+import { Review, ReviewApi } from '@api/Review'
 import { defineComponent, PropType, reactive } from 'vue'
+import { useToast } from 'vue-toastification'
 export default defineComponent({
   name: 'ReviewListItem',
   props: {
@@ -99,10 +107,13 @@ export default defineComponent({
       default: false
     }
   },
-  setup () {
+  setup (props) {
     const state = reactive({
-      showMore: false
+      showMore: false,
+      isDestroyed: false,
+      isDeleteBtnLoading: false
     })
+    const toast = useToast()
 
     function showMore () {
       state.showMore = true
@@ -112,7 +123,21 @@ export default defineComponent({
       state.showMore = false
     }
 
-    return { state, showMore, showLess }
+    async function deleteReview () {
+      try {
+        state.isDeleteBtnLoading = true
+        await new ReviewApi().delete(props.review.uuid)
+        state.isDestroyed = true
+        toast.success('Review deletado com sucesso')
+      } catch (error) {
+        console.log(error)
+        toast.error('Ocorreu um error ao deletar o review')
+      } finally {
+        state.isDeleteBtnLoading = false
+      }
+    }
+
+    return { state, showMore, showLess, deleteReview }
   }
 })
 </script>

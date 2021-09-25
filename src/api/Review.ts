@@ -79,4 +79,11 @@ export class ReviewApi {
 
     return response.data.review as Review
   }
+
+  async delete (uuid: string) {
+    const token = localStorage.getItem('token')
+    await this.axios.delete(`/reviews/${uuid}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+  }
 }

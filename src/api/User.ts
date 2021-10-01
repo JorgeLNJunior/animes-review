@@ -7,6 +7,9 @@ export interface User {
   name: string;
   email: string;
   avatar: string;
+  isAdmin: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface UserQuery {

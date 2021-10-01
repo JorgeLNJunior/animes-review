@@ -20,6 +20,22 @@
                   <p class="title is-4 mt-3">
                     {{ state.user.name }}
                   </p>
+                  <div class="mb-4">
+                    <div class="columns">
+                      <div class="column is-3">
+                        <b>Email: </b>
+                        <span>{{ state.user.email }}</span>
+                      </div>
+                      <div class="column is-4">
+                        <b>Entrou em: </b>
+                        <span>{{ formatDate(state.user.createdAt) }}</span>
+                      </div>
+                      <div class="column is-2">
+                        <b>Administrador: </b>
+                        <span>{{ state.user.isAdmin ? 'Sim' : 'Não' }}</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -45,6 +61,8 @@ import { Review, ReviewApi } from '@api/Review'
 import { User, UserApi } from '@api/User'
 import ReviewListItem from '@components/animes/ReviewListItem.vue'
 import { hasModifyPermission } from '@helpers/helpers'
+import { format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import { defineComponent, onBeforeMount, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -85,12 +103,16 @@ export default defineComponent({
       return hasModifyPermission(userUuid)
     }
 
+    function formatDate (date: string) {
+      return format(new Date(date), "d 'de' LLLL 'de' y", { locale: ptBR })
+    }
+
     onBeforeMount(async () => {
       await findUser()
       await findReviews()
     })
 
-    return { state, route, checkPermission }
+    return { state, route, checkPermission, formatDate }
   }
 })
 </script>

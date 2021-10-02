@@ -92,6 +92,7 @@
           :key="review.uuid"
           :review="review"
           :has-modify-permission="checkPermission(review.user.uuid)"
+          :authenticated-user="state.authenticatedUser"
         />
       </div>
     </div>
@@ -101,10 +102,13 @@
 <script lang="ts">
 import { Anime, AnimeApi } from '@api/Anime'
 import { Review, ReviewApi } from '@api/Review'
+import { token } from '@api/token.interface'
+import { User, UserApi } from '@api/User'
 import ReviewList from '@components/animes/ReviewListItem.vue'
 import { hasModifyPermission } from '@helpers/helpers'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import jwtDecode from 'jwt-decode'
 import { defineComponent, onBeforeMount, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -119,7 +123,8 @@ export default defineComponent({
       reviews: [] as Review[],
       isModalOpen: false,
       isApiCallEnded: false,
-      isIframeLoaded: false
+      isIframeLoaded: false,
+      authenticatedUser: {} as User
     })
 
     async function findAnime () {
@@ -141,6 +146,13 @@ export default defineComponent({
 
     async function findReviews () {
       state.reviews = await new ReviewApi().find({ animeUuid: state.anime.uuid as string, take: 10 })
+    }
+
+    async function findAuthenticatedUser () {
+      const token = localStorage.getItem('token')
+      const decoded: token = jwtDecode(token as string)
+      const userList = await new UserApi().find({ uuid: decoded.uuid })
+      state.authenticatedUser = userList[0]
     }
 
     async function redirectToReview () {
@@ -169,6 +181,7 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await findAnime()
+      await findAuthenticatedUser()
       await findReviews()
     })
 

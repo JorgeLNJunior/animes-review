@@ -4,11 +4,11 @@
     class="card block"
   >
     <div class="card-content">
-      <div
-        v-if="hasModifyPermission"
-        class="top-right-item columns"
-      >
-        <div class="column is-4">
+      <div class="top-right-item columns is-mobile">
+        <div
+          v-if="hasModifyPermission"
+          class="column is-4"
+        >
           <button
             class="button is-danger is-inverted"
             :class="{ 'is-loading': state.isDeleteBtnLoading }"
@@ -19,7 +19,10 @@
             </span>
           </button>
         </div>
-        <div class="column is-4">
+        <div
+          v-if="hasModifyPermission"
+          class="column is-4"
+        >
           <router-link :to="`/reviews/${review.uuid}/update`">
             <button class="button is-info is-inverted">
               <span class="icon is-small">
@@ -27,6 +30,20 @@
               </span>
             </button>
           </router-link>
+        </div>
+        <div class="column is-4">
+          <button
+            class="button is-inverted"
+            :class="{ 'is-loading': state.isVoteBtnLoading, 'is-primary': state.isUserAlreadyVoted }"
+            @click="voteButtonClick()"
+          >
+            <span class="badge">{{ state.numberOfVotes }}</span>
+            <div>
+              <span class="icon is-small">
+                <i class="far fa-thumbs-up" />
+              </span>
+            </div>
+          </button>
         </div>
       </div>
       <article class="media">
@@ -92,8 +109,11 @@
 
 <script lang="ts">
 import { Review, ReviewApi } from '@api/Review'
-import { defineComponent, PropType, reactive } from 'vue'
+import { User } from '@api/User'
+import { Vote, VoteApi } from '@api/Vote'
+import { defineComponent, onBeforeMount, PropType, reactive } from 'vue'
 import { useToast } from 'vue-toastification'
+
 export default defineComponent({
   name: 'ReviewListItem',
   props: {
@@ -105,15 +125,28 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: false
+    },
+    authenticatedUser: {
+      type: Object as PropType<User>,
+      required: true
     }
   },
   setup (props) {
     const state = reactive({
       showMore: false,
       isDestroyed: false,
-      isDeleteBtnLoading: false
+      isDeleteBtnLoading: false,
+      isVoteBtnLoading: false,
+      isUserAlreadyVoted: false,
+      numberOfVotes: 0,
+      userVote: {} as Vote
     })
     const toast = useToast()
+
+    onBeforeMount(async () => {
+      await findReviewVotes()
+      await checkUserVote()
+    })
 
     function showMore () {
       state.showMore = true
@@ -137,7 +170,50 @@ export default defineComponent({
       }
     }
 
-    return { state, showMore, showLess, deleteReview }
+    async function findReviewVotes () {
+      const { total } = await new VoteApi().find({ reviewUuid: props.review.uuid })
+      state.numberOfVotes = total
+    }
+
+    async function checkUserVote () {
+      const { votes } = await new VoteApi().find({
+        userUuid: props.authenticatedUser.uuid,
+        reviewUuid: props.review.uuid
+      })
+      if (votes[0]) {
+        state.userVote = votes[0]
+        state.isUserAlreadyVoted = true
+      }
+    }
+
+    async function voteButtonClick () {
+      state.isVoteBtnLoading = true
+      if (state.isUserAlreadyVoted) {
+        try {
+          await new VoteApi().delete(state.userVote.uuid)
+          state.isUserAlreadyVoted = false
+          state.numberOfVotes--
+        } catch (error) {
+          console.log(error)
+          toast.error('Ocorreu um error ao votar')
+        } finally {
+          state.isVoteBtnLoading = false
+        }
+      } else {
+        try {
+          await new VoteApi().vote(props.review.uuid)
+          state.isUserAlreadyVoted = true
+          state.numberOfVotes++
+        } catch (error) {
+          console.log(error)
+          toast.error('Ocorreu um error ao retirar o voto')
+        } finally {
+          state.isVoteBtnLoading = false
+        }
+      }
+    }
+
+    return { state, showMore, showLess, deleteReview, voteButtonClick }
   }
 })
 </script>

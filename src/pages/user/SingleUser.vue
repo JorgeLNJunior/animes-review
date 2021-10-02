@@ -50,6 +50,7 @@
           :key="review.uuid"
           :review="review"
           :has-modify-permission="checkPermission(review.user.uuid)"
+          :authenticated-user="state.authenticatedUser"
         />
       </div>
     </div>
@@ -58,11 +59,13 @@
 
 <script lang="ts">
 import { Review, ReviewApi } from '@api/Review'
+import { token } from '@api/token.interface'
 import { User, UserApi } from '@api/User'
 import ReviewListItem from '@components/animes/ReviewListItem.vue'
 import { hasModifyPermission } from '@helpers/helpers'
 import { format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import jwtDecode from 'jwt-decode'
 import { defineComponent, onBeforeMount, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
@@ -75,7 +78,8 @@ export default defineComponent({
     const state = reactive({
       user: {} as User,
       reviews: [] as Review[],
-      isApiCallEnded: false
+      isApiCallEnded: false,
+      authenticatedUser: {} as User
     })
 
     async function findUser () {
@@ -99,6 +103,13 @@ export default defineComponent({
       state.reviews = await new ReviewApi().find({ userUuid: state.user.uuid as string, take: 10 })
     }
 
+    async function findAuthenticatedUser () {
+      const token = localStorage.getItem('token')
+      const decoded: token = jwtDecode(token as string)
+      const userList = await new UserApi().find({ uuid: decoded.uuid })
+      state.authenticatedUser = userList[0]
+    }
+
     function checkPermission (userUuid: string) {
       return hasModifyPermission(userUuid)
     }
@@ -109,6 +120,7 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await findUser()
+      await findAuthenticatedUser()
       await findReviews()
     })
 

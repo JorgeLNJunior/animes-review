@@ -92,7 +92,12 @@
 
           <div class="navbar-dropdown is-boxed is-right">
             <a class="navbar-item">
-              <span class="level-item">Configurações</span>
+              <router-link
+                style="text-decoration: none; color: inherit;"
+                :to="`/users/${state.authenticatedUser.uuid}/config`"
+              >
+                <span class="level-item">Configurações</span>
+              </router-link>
             </a>
             <hr class="navbar-driver">
             <a
@@ -110,7 +115,10 @@
 
 <script lang="ts">
 import { Anime, AnimeApi } from '@api/Anime'
-import { defineComponent, reactive } from 'vue'
+import { token } from '@api/token.interface'
+import { User, UserApi } from '@api/User'
+import jwtDecode from 'jwt-decode'
+import { defineComponent, onBeforeMount, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
@@ -122,8 +130,11 @@ export default defineComponent({
       dropDownAnimeList: [] as Anime[],
       isLoading: false,
       isMenuActive: false,
-      isDropdownActive: false
+      isDropdownActive: false,
+      authenticatedUser: {} as User
     })
+
+    onBeforeMount(async () => await findAuthenticatedUser())
 
     async function findAnimes () {
       if (state.search.length <= 0) {
@@ -147,6 +158,13 @@ export default defineComponent({
 
     function openCloseMenu () {
       state.isMenuActive = !state.isMenuActive
+    }
+
+    async function findAuthenticatedUser () {
+      const token = localStorage.getItem('token')
+      const decoded: token = jwtDecode(token as string)
+      const userList = await new UserApi().find({ uuid: decoded.uuid })
+      state.authenticatedUser = userList[0]
     }
 
     function logout () {

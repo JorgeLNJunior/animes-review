@@ -40,6 +40,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@pages/user/SingleUser.vue')
       },
       {
+        name: 'UserConfig',
+        path: 'users/:uuid/config',
+        component: () => import('@pages/user/UserConfig.vue')
+      },
+      {
         path: 'reviews/:uuid/update',
         component: () => import('@pages/review/UpdateReview.vue')
       }

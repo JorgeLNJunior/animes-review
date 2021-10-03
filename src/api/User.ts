@@ -12,6 +12,10 @@ export interface User {
   updatedAt: string;
 }
 
+export interface UpdateUser {
+  name?: string;
+}
+
 export interface UserQuery {
   uuid?: string;
   name?: string;
@@ -40,5 +44,12 @@ export class UserApi {
       headers: { Authorization: `Bearer ${token}` }
     })
     return response.data.users as User[]
+  }
+
+  async update (uuid: string, form: UpdateUser) {
+    const token = localStorage.getItem('token')
+    await this.axios.patch(`/users/${uuid}`, form, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
   }
 }

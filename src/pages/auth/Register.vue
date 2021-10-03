@@ -158,7 +158,7 @@ export default defineComponent({
         uiState.isLoading = true
 
         await new Auth().register(formState)
-        toast.success('Registrado com sucesso')
+        toast.success('Registrado com sucesso, verifique seu email', { timeout: 6000 })
         await router.push({ path: '/login' })
       } catch (error) {
         console.log(error)

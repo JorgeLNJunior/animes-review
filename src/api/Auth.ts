@@ -35,4 +35,8 @@ export class Auth {
     const response = await this.axios.post('/register', form)
     return response.data.user as User
   }
+
+  async confirmEmail (token: string) {
+    await this.axios.post('/confirm', { token: token })
+  }
 }

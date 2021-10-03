@@ -15,6 +15,10 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@pages/auth/Register.vue')
   },
   {
+    path: '/confirmation',
+    component: () => import('@pages/auth/EmailConfirmation.vue')
+  },
+  {
     path: '/',
     component: () => import('@pages/Main.vue'),
     meta: { requiresAuth: true },

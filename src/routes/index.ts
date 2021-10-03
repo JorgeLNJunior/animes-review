@@ -7,6 +7,11 @@ const toast = useToast()
 
 const routes: RouteRecordRaw[] = [
   {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@pages/NotFound.vue')
+  },
+  {
     path: '/login',
     component: () => import('@pages/auth/Login.vue')
   },

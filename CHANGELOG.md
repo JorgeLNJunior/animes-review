@@ -1,3 +1,13 @@
+#### 0.1.1 (2021-10-03)
+
+##### Build System / Dependencies
+
+*  atualizar algumas dependências (80d0a621)
+
+##### Documentation Changes
+
+*  criar a licença (693fb23d)
+
 ### 0.1.0 (2021-10-03)
 
 ##### Build System / Dependencies

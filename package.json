@@ -4,7 +4,10 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "release:major": "changelog -M && git add CHANGELOG.md && git commit -m 'chore: atualizar o CHANGELOG.md' && npm version major -m \"docs: atualizar para %s\" && git push --tags",
+    "release:minor": "changelog -m && git add CHANGELOG.md && git commit -m 'chore: atualizar o CHANGELOG.md' && npm version minor -m \"docs: atualizar para %s\" && git push --tags",
+    "release:patch": "changelog -p && git add CHANGELOG.md && git commit -m 'chore: atualizar o CHANGELOG.md' && npm version patch -m \"docs: atualizar para %s\" && git push --tags"
   },
   "dependencies": {
     "@creativebulma/bulma-badge": "^1.0.1",
@@ -39,6 +42,7 @@
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "eslint-plugin-vue": "^7.13.0",
+    "generate-changelog": "^1.8.0",
     "husky": "^7.0.1",
     "lint-staged": "^11.0.0",
     "sass": "^1.35.1",

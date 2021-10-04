@@ -68,7 +68,7 @@ export default defineComponent({
   setup () {
     const token = localStorage.getItem('token')
     const decoded: token = jwtDecode(token as string)
-    const socket = io('http://localhost:3000', {
+    const socket = io(String(import.meta.env.VITE_API_URL), {
       transports: ['websocket'],
       query: {
         auth: token as string

@@ -93,9 +93,7 @@ export default defineComponent({
         state.user = user[0]
         state.isApiCallEnded = true
       } catch (error) {
-        if (error.response) {
-          await router.push({ path: '/', query: { status: 'error', message: 'Ocorreu um erro inesperado' } })
-        }
+        await router.push({ path: '/', query: { status: 'error', message: 'Ocorreu um erro inesperado' } })
       }
     }
 

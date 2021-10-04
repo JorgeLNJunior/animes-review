@@ -84,7 +84,7 @@
                 <button
                   class="button is-primary"
                   :class="{ 'is-loadind': uiState.isLoading }"
-                  :disabled="uiState.isBtnDisabled || v$.$errors.length"
+                  :disabled="uiState.isBtnDisabled || v$.$errors.length > 0"
                 >
                   Avaliar
                 </button>
@@ -177,8 +177,9 @@ export default defineComponent({
         await router.push({ path: `/animes/${route.params.uuid as string}` })
       } catch (error) {
         console.log(error)
-        if (error.response.status === 400) {
-          toast.error(error.response.data.message[0])
+        const msg = (error as any).response.data.message
+        if (msg) {
+          toast.error(msg)
         }
       } finally {
         uiState.isBtnDisabled = false

@@ -162,11 +162,10 @@ export default defineComponent({
         await router.push({ path: '/login' })
       } catch (error) {
         console.log(error)
-        if (error.response.status === 400) {
-          toast.error(error.response.data.message[0])
-          return
+        const msg = (error as any).response.data.message
+        if (msg[0]) {
+          toast.error(msg)
         }
-        toast.error('Ocorreu um erro inesperado')
       } finally {
         uiState.isDisabled = false
         uiState.isLoading = false

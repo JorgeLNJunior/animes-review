@@ -43,9 +43,9 @@ export class VoteApi {
     })
 
     return {
-      votes: response.data.votes as Vote[],
-      pageTotal: response.data.pageTotal as number,
-      total: response.data.total as number
+      votes: (response as any).data.votes as Vote[],
+      pageTotal: (response as any).data.pageTotal as number,
+      total: (response as any).data.total as number
     }
   }
 
@@ -56,7 +56,7 @@ export class VoteApi {
     }, {
       headers: { Authorization: `Bearer ${token}` }
     })
-    return response.data.vote as Vote
+    return (response as any).data.vote as Vote
   }
 
   async delete (reviewUuid: string): Promise<void> {

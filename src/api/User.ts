@@ -43,7 +43,7 @@ export class UserApi {
     const response = await this.axios.get(`/users?${q}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
-    return response.data.users as User[]
+    return (response as any).data.users as User[]
   }
 
   async update (uuid: string, form: UpdateUser) {

@@ -2,7 +2,7 @@
   "version": "0.1.1",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vue-tsc --noEmit --skipLibCheck && vite build",
     "serve": "vite preview",
     "prepare": "husky install",
     "release:major": "changelog -M && git add CHANGELOG.md && git commit -m 'chore: atualizar o CHANGELOG.md' && npm version major -m \"docs: atualizar para %s\" && git push --tags",
@@ -48,7 +48,7 @@
     "sass": "^1.42.1",
     "typescript": "^4.4.3",
     "vite": "^2.6.2",
-    "vue-tsc": "^0.3.0"
+    "vue-tsc": "^0.0.24"
   },
   "lint-staged": {
     "*.{js,ts,vue}": "eslint --fix"

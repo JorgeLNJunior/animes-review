@@ -85,7 +85,7 @@
             <button
               class="button is-primary "
               :class="{ 'is-loading': uiState.isLoading }"
-              :disabled="uiState.isDisabled || v$.$errors.length"
+              :disabled="uiState.isDisabled || v$.$errors.length > 0"
             >
               Atualizar
             </button>
@@ -142,11 +142,9 @@ export default defineComponent({
         await userApi.update(state.user.uuid, formState)
         await router.push({ name: 'UserConfig', params: { uuid: state.user.uuid }, query: { status: 'success', message: 'Anime criado com sucesso' } })
       } catch (error) {
-        if (error.response.status === 400) {
-          toast.error(error.response.data.message[0])
-        }
-        if (error.response.status === 500) {
-          toast.error('Ocorreu um erro inesperado')
+        const msg = (error as any).response.data.message
+        if (msg) {
+          toast.error(msg[0])
         }
         console.log(error)
       } finally {
@@ -167,9 +165,7 @@ export default defineComponent({
         state.isApiCallEnded = true
         formState.name = user[0].name
       } catch (error) {
-        if (error.response) {
-          await router.push({ path: '/', query: { status: 'error', message: 'Ocorreu um erro inesperado' } })
-        }
+        await router.push({ path: '/', query: { status: 'error', message: 'Ocorreu um erro inesperado' } })
       }
     }
 

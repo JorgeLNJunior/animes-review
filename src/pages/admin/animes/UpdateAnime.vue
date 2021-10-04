@@ -106,7 +106,7 @@
             <button
               class="button is-primary "
               :class="{ 'is-loading': state.isLoading }"
-              :disabled="state.isDisabled || v$.$errors.length"
+              :disabled="state.isDisabled || v$.$errors.length > 0"
             >
               Atualizar
             </button>
@@ -207,8 +207,9 @@ export default defineComponent({
         await animeApi.update(uuid, formState)
         await router.push({ path: '/admin/animes', query: { status: 'success', message: 'Anime atualizado com sucesso' } })
       } catch (error) {
-        if (error.response.data.message) {
-          toast.error(error.response.data.message[0])
+        const msg = (error as any).response.data.message
+        if (msg) {
+          toast.error(msg)
         }
         console.log(error)
       } finally {

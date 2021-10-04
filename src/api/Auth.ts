@@ -28,12 +28,12 @@ export class Auth {
       email: email,
       password: password
     })
-    return response.data.token as string
+    return (response as any).data.token as string
   }
 
   async register (form: UserForm) {
     const response = await this.axios.post('/register', form)
-    return response.data.user as User
+    return (response as any).data.user as User
   }
 
   async confirmEmail (token: string) {

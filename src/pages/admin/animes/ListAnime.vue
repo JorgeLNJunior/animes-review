@@ -78,8 +78,9 @@ export default defineComponent({
         state.isLoading = true
         state.animes = (await animeApi.find(store.animeQuery)).reverse()
       } catch (error) {
-        if (error.response.data.message) {
-          toast.error(error.response.data.message)
+        const msg = (error as any).response.data.message
+        if (msg) {
+          toast.error(msg)
         }
         console.log(error)
       } finally {

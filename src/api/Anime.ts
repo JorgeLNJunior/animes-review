@@ -47,7 +47,7 @@ export class AnimeApi {
     const response = await this.axios.get(`/animes?${q}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
-    return response.data.animes as Anime[]
+    return (response as any).data.animes as Anime[]
   }
 
   async findTop10 () {
@@ -56,7 +56,7 @@ export class AnimeApi {
       headers: { Authorization: `Bearer ${token}` }
     })
 
-    return response.data.animes as Anime[]
+    return (response as any).data.animes as Anime[]
   }
 
   async create (anime: UpdateAnime) {
@@ -65,7 +65,7 @@ export class AnimeApi {
       headers: { Authorization: `Bearer ${token}` }
     })
 
-    return response.data.anime as Anime
+    return (response as any).data.anime as Anime
   }
 
   async update (uuid: string, anime: UpdateAnime) {

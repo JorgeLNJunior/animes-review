@@ -69,10 +69,8 @@ export default defineComponent({
         await router.push({ path: '/admin/animes', query: { status: 'success', message: 'Anime excluído com sucesso' } })
         router.go(0)
       } catch (error) {
-        if (error.response) {
-          await router.push({ path: '/admin/animes', query: { status: 'error', message: 'Falha ao excluir anime' } })
-          router.go(0)
-        }
+        await router.push({ path: '/admin/animes', query: { status: 'error', message: 'Falha ao excluir anime' } })
+        router.go(0)
         console.log(error)
       } finally {
         state.isDeleteBtnLoading = false

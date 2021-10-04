@@ -55,7 +55,7 @@ export class ReviewApi {
       headers: { Authorization: `Bearer ${token}` }
     })
 
-    return response.data.reviews as Review[]
+    return (response as any).data.reviews as Review[]
   }
 
   async create (form: ReviewForm) {
@@ -66,7 +66,7 @@ export class ReviewApi {
       headers: { Authorization: `Bearer ${token}` }
     })
 
-    return response.data.review as Review
+    return (response as any).data.review as Review
   }
 
   async update (uuid: string, form: UpdateReviewForm) {
@@ -77,7 +77,7 @@ export class ReviewApi {
       headers: { Authorization: `Bearer ${token}` }
     })
 
-    return response.data.review as Review
+    return (response as any).data.review as Review
   }
 
   async delete (uuid: string) {

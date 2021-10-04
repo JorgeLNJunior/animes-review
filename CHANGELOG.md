@@ -1,3 +1,13 @@
+#### 0.1.2 (2021-10-04)
+
+##### Build System / Dependencies
+
+*  corrigir erros no build (3b2098de)
+
+##### Documentation Changes
+
+*  renomear o arquivo de licença (96a69974)
+
 #### 0.1.1 (2021-10-03)
 
 ##### Build System / Dependencies

@@ -1,5 +1,7 @@
 <div align="center" id="short-description">
 
+<img src="https://i.ibb.co/q045V4Z/AR-Logo.png" width="300px">
+
 <h1>Animes Review</h1>
 
 Plataforma para avaliação de animes

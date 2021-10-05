@@ -1,3 +1,14 @@
+#### 0.1.4 (2021-10-05)
+
+##### Documentation Changes
+
+*  adicionar o logo no readme (0c39343e)
+
+##### Refactors
+
+*  alterar o logo da navbar (fb6e8000)
+*  alterar o ícone e nome do app (889530cb)
+
 #### 0.1.3 (2021-10-04)
 
 ##### Build System / Dependencies

@@ -1,3 +1,9 @@
+#### 0.1.5 (2021-12-02)
+
+##### Build System / Dependencies
+
+* **deps:**  atualizar algumas dependências (38ed6027)
+
 #### 0.1.4 (2021-10-05)
 
 ##### Documentation Changes
